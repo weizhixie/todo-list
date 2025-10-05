@@ -1,4 +1,4 @@
-export class TaskManger {
+export class TaskManager {
     #tasks;
 
     constructor() {
