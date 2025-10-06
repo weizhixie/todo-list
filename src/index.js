@@ -1,4 +1,4 @@
 import "./styles.css";
 import { renderUI } from "./render-ui.js";
 
-renderUI();
+const todoUI = new renderUI(document.body);

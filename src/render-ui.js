@@ -1,36 +1,36 @@
-export function renderUI() {
-    const home = document.querySelector("body");
-    home.append(renderHeader(), renderMainSection(), renderFooter());
-}
+export class renderUI {
+    constructor(body) {
+        this.body = body;
+        this.body.append(this.renderHeader(), this.renderMainSection(), this.renderFooter());
+    }
 
-function renderHeader() {
-    const header = document.createElement("header");
-    header.classList.add("header")
-    header.textContent = `Header`;
+    renderHeader() {
+        const header = document.createElement("header");
+        header.classList.add("header");
+        header.textContent = `Header`;
+        return header;
+    }
 
-    return header;
-}
+    renderMainSection() {
+        const mainSection = document.createElement("main");
+        mainSection.classList.add("main-section");
 
-function renderMainSection() {
-    const mainSection = document.createElement("main");
-    mainSection.classList.add("main-section");
+        const sideBar = document.createElement("aside");
+        sideBar.classList.add("side-bar");
+        sideBar.textContent = `Side bar`;
 
-    const sideBar = document.createElement("aside");
-    sideBar.classList.add("side-bar")
-    sideBar.textContent = `Side bar`;
+        const todosContainer = document.createElement("div");
+        todosContainer.classList.add("todos-container");
+        todosContainer.textContent = "Todos container";
 
-    const todoListContainer = document.createElement("div");
-    todoListContainer.classList.add("todo-list-container")
-    todoListContainer.textContent = "Todo list container";
+        mainSection.append(sideBar, todosContainer);
+        return mainSection;
+    }
 
-    mainSection.append(sideBar, todoListContainer)
-    return mainSection;
-}
-
-function renderFooter() {
-    const footer = document.createElement("Footer");
-    footer.classList.add("footer")
-    footer.textContent = "Footer";
-
-    return footer;
+    renderFooter() {
+        const footer = document.createElement("Footer");
+        footer.classList.add("footer");
+        footer.textContent = "Footer";
+        return footer;
+    }
 }
