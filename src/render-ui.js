@@ -27,6 +27,21 @@ export class renderUI {
         return mainSection;
     }
 
+    renderTasks(tasks) {
+        tasks.forEach((task) => {
+            const taskItem = document.createElement("p");
+            taskItem.textContent = ` ${task.title} ${task.dueDate}`;
+            taskItem.classList.add("task-item");
+
+            const detailBtn = document.createElement("button");
+            detailBtn.classList.add("detail-btn");
+            detailBtn.textContent = "Details";
+
+            taskItem.appendChild(detailBtn);
+            document.querySelector(".todos-container").appendChild(taskItem);
+        });
+    }
+
     renderFooter() {
         const footer = document.createElement("Footer");
         footer.classList.add("footer");

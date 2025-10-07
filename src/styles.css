@@ -37,6 +37,7 @@ body {
     background-color: var(--mint-green);
 }
 
+/* main section */
 .main-section {
     display: grid;
     grid-template-columns: 2fr 6fr;
@@ -44,6 +45,35 @@ body {
 
 .side-bar {
     background-color: var(--azure);
+}
+
+/* main section - Todos */
+.todos-container {
+    padding: 20px;
+}
+
+.task-item {
+    background-color: var(--mint-green);
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.task-item:hover {
+    box-shadow: 2px 2px 1px 1px var(--viridian);
+    transform: scale(1.02);
+}
+
+.detail-btn {
+    background: linear-gradient(to bottom right, var(--viridian), var(--mint-cream));
+    font-size: 1.1rem;
+    padding: 5px;
+    border-radius: 6px;
+    border: 0;
+}
+
+.detail-btn:hover {
+    filter: brightness(120%);
+    cursor: pointer;
 }
 
 .footer {
