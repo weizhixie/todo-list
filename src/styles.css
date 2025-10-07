@@ -63,7 +63,8 @@ body {
     transform: scale(1.02);
 }
 
-.detail-btn {
+.detail-btn,
+.close-detail-btn {
     background: linear-gradient(to bottom right, var(--viridian), var(--mint-cream));
     font-size: 1.1rem;
     padding: 5px;
@@ -71,9 +72,47 @@ body {
     border: 0;
 }
 
-.detail-btn:hover {
+.detail-btn:hover,
+.close-detail-btn:hover {
     filter: brightness(120%);
     cursor: pointer;
+}
+
+.todo-detail-modal {
+    background-color: var(--azure);
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    border: none;
+    position: relative;
+}
+
+.todo-detail-modal::backdrop {
+    backdrop-filter: blur(3px);
+}
+
+.x-closet-btn {
+    position: absolute;
+    font-size: 1.7rem;
+    right: 1rem;
+    top: 0.4rem;
+    background-color: transparent;
+    border: none;
+}
+
+.x-closet-btn:hover {
+    cursor: pointer;
+    color: var(--viridian);
+}
+
+.todo-detail-para {
+    padding: 10px;
+}
+
+.close-detail-btn {
+    margin-top: 5px;
 }
 
 .footer {
