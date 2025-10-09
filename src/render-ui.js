@@ -1,4 +1,4 @@
-export class renderUI {
+export class RenderUI {
     constructor(body, eventHandlers) {
         this.body = body;
         this.eventHandlers = eventHandlers;
@@ -35,18 +35,18 @@ export class renderUI {
     }
 
     openAddTaskModal() {
-        let addTaskModal = document.querySelector(".add-task-modal");
+        let addTaskModal = this.body.querySelector(".add-task-modal");
 
         if (!addTaskModal) {
             addTaskModal = document.createElement("dialog");
             addTaskModal.classList.add("add-task-modal");
 
-            const xClosetBtn = document.createElement("button");
-            xClosetBtn.classList.add("x-closet-btn");
-            xClosetBtn.textContent = '\u2715';
-            xClosetBtn.addEventListener("click", () => addTaskModal.close());
+            const xSignCloseBtn = document.createElement("button");
+            xSignCloseBtn.classList.add("x-sign-close-btn");
+            xSignCloseBtn.textContent = '\u2715';
+            xSignCloseBtn.addEventListener("click", () => addTaskModal.close());
 
-            addTaskModal.append(this.createTaskForm(), xClosetBtn);
+            addTaskModal.append(this.createTaskForm(), xSignCloseBtn);
             this.body.appendChild(addTaskModal);
         }
 
@@ -170,15 +170,15 @@ export class renderUI {
             const detailBtn = document.createElement("button");
             detailBtn.classList.add("detail-btn");
             detailBtn.textContent = "Details";
-            detailBtn.addEventListener("click", e => this.openTodoDetail(task));
+            detailBtn.addEventListener("click", () => this.openTodoDetail(task));
 
             taskItem.appendChild(detailBtn);
-            document.querySelector(".todos-container").appendChild(taskItem);
+            this.body.querySelector(".todos-container").appendChild(taskItem);
         });
     }
 
     openTodoDetail(task) {
-        let todoDetailModal = document.querySelector(".todo-detail-modal") || this.createTodoDetailModal();
+        let todoDetailModal = this.body.querySelector(".todo-detail-modal") || this.createTodoDetailModal();
 
         todoDetailModal.querySelector(".todo-detail-title").textContent = task.title;
         todoDetailModal.querySelector(".todo-detail-desc").textContent = `Details: ${task.description}`;
@@ -204,24 +204,24 @@ export class renderUI {
         const todoDetailPriority = document.createElement("p");
         todoDetailPriority.classList.add("todo-detail-priority", "todo-detail-para");
 
-        const xClosetBtn = document.createElement("button");
-        xClosetBtn.classList.add("x-closet-btn");
-        xClosetBtn.textContent = '\u2715';
-        xClosetBtn.addEventListener("click", e => todoDetailModal.close());
+        const xSignCloseBtn = document.createElement("button");
+        xSignCloseBtn.classList.add("x-sign-close-btn");
+        xSignCloseBtn.textContent = '\u2715';
+        xSignCloseBtn.addEventListener("click", () => todoDetailModal.close());
 
         const closeDetailBtn = document.createElement("button");
         closeDetailBtn.classList.add("close-detail-btn");
         closeDetailBtn.textContent = "Close Detail";
-        closeDetailBtn.addEventListener("click", e => todoDetailModal.close());
+        closeDetailBtn.addEventListener("click", () => todoDetailModal.close());
 
-        todoDetailModal.append(todoDetailTitle, todoDetailDesc, todoDetailDue, todoDetailPriority, xClosetBtn, closeDetailBtn);
+        todoDetailModal.append(todoDetailTitle, todoDetailDesc, todoDetailDue, todoDetailPriority, xSignCloseBtn, closeDetailBtn);
         this.body.append(todoDetailModal);
 
         return todoDetailModal;
     }
 
     renderFooter() {
-        const footer = document.createElement("Footer");
+        const footer = document.createElement("footer");
         footer.classList.add("footer");
         footer.textContent = "Footer";
         return footer;

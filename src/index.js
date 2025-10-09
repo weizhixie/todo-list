@@ -1,7 +1,7 @@
 import "./styles.css";
 import { Task } from "./task.js";
 import { TaskManager } from "./task-manager .js";
-import { renderUI } from "./render-ui.js";
+import { RenderUI } from "./render-ui.js";
 
 const taskManager = new TaskManager();
 
@@ -23,7 +23,7 @@ dummyTodoTasks.forEach((taskData) => {
     taskManager.create(newTask);
 });
 
-const todoUI = new renderUI(document.body, {
+const todoUI = new RenderUI(document.body, {
     onTaskFormSubmit: (taskData) => {
         const newTask = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority);
         taskManager.create(newTask)
