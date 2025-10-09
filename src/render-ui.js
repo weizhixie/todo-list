@@ -1,6 +1,7 @@
 export class renderUI {
-    constructor(body) {
+    constructor(body, eventHandlers) {
         this.body = body;
+        this.eventHandlers = eventHandlers;
         this.body.append(this.renderHeader(), this.renderMainSection(), this.renderFooter());
     }
 
@@ -122,10 +123,42 @@ export class renderUI {
         submitBtn.classList.add("submit-task-btn");
         submitBtn.textContent = "Add Task";
 
+        taskForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            this.handleTaskFormSubmit(taskForm);
+        });
+
         taskFormBtnWrapper.append(cancelBtn, submitBtn);
         taskForm.appendChild(taskFormBtnWrapper);
 
         return taskForm;
+    }
+
+    handleTaskFormSubmit(taskForm) {
+        const formData = new FormData(taskForm); // Create key-value pairs from form elements, e.g. key = "todo-title", value = user input 
+        const taskData = {
+            title: formData.get("todo-title"),
+            description: formData.get("todo-description"),
+            dueDate: formData.get("todo-dueDate"),
+            priority: formData.get("priority-select")
+        };
+
+        if (this.eventHandlers.onTaskFormSubmit) {
+            this.eventHandlers.onTaskFormSubmit(taskData); //call the function when form submits
+        }
+
+        this.body.querySelector(".add-task-modal").close();
+        taskForm.reset();
+    }
+
+    updateTaskDisplay(tasks) {
+        const todosContainer = this.body.querySelector(".todos-container");
+        const addTaskBtn = todosContainer.querySelector(".add-task-btn");
+
+        todosContainer.textContent = "";
+        todosContainer.appendChild(addTaskBtn);
+
+        this.renderTasks(tasks);
     }
 
     renderTasks(tasks) {

@@ -3,7 +3,6 @@ import { Task } from "./task.js";
 import { TaskManager } from "./task-manager .js";
 import { renderUI } from "./render-ui.js";
 
-const todoUI = new renderUI(document.body);
 const taskManager = new TaskManager();
 
 const dummyTodoTasks = [
@@ -24,4 +23,12 @@ dummyTodoTasks.forEach((taskData) => {
     taskManager.create(newTask);
 });
 
-todoUI.renderTasks(taskManager.listAll());
+const todoUI = new renderUI(document.body, {
+    onTaskFormSubmit: (taskData) => {
+        const newTask = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority);
+        taskManager.create(newTask)
+        todoUI.updateTaskDisplay(taskManager.listAll());
+    }
+});
+
+todoUI.updateTaskDisplay(taskManager.listAll());
