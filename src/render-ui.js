@@ -70,7 +70,7 @@ export class RenderUI {
             input: { tagName: "textarea", name: "todo-description", id: "todo-description", rows: 5 }
         }, {
             label: "Due Date",
-            input: { tagName: "input", type: "date", name: "todo-dueDate", id: "todo-dueDate" }
+            input: { tagName: "input", type: "date", name: "todo-dueDate", id: "todo-dueDate", min: `${new Date().toISOString().split('T')[0]}` }
         }, {
             label: "Priority",
             input: { tagName: "select", name: "priority-select", id: "priority-select" },
@@ -136,6 +136,16 @@ export class RenderUI {
 
     handleTaskFormSubmit(taskForm) {
         const formData = new FormData(taskForm); // Create key-value pairs from form elements, e.g. key = "todo-title", value = user input 
+
+        if (!formData.get("todo-title").trim()) {
+            alert("Please enter a title.");
+            return;
+        }
+
+        if (!formData.get("todo-dueDate")) {
+            formData.set("todo-dueDate", new Date().toISOString().split('T')[0]); //if date is not select, set it to today
+        }
+
         const taskData = {
             title: formData.get("todo-title"),
             description: formData.get("todo-description"),
