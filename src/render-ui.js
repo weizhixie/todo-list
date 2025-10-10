@@ -46,104 +46,35 @@ export class RenderUI {
             xSignCloseBtn.textContent = '\u2715';
             xSignCloseBtn.addEventListener("click", () => addTaskModal.close());
 
-            addTaskModal.append(this.createTaskForm(), xSignCloseBtn);
+            addTaskModal.append(this.createAddTaskForm(), xSignCloseBtn);
             this.body.appendChild(addTaskModal);
         }
 
         addTaskModal.showModal();
     }
 
-    createTaskForm() {
-        const taskForm = document.createElement("form");
-        taskForm.classList.add("task-form");
-
-        const taskFormHeader = document.createElement("h2");
-        taskFormHeader.classList.add("task-form-header");
-        taskFormHeader.textContent = "Add Task";
-        taskForm.appendChild(taskFormHeader);
-
-        const taskFormFields = [{
-            label: "Title*",
-            input: { tagName: "input", type: "text", name: "todo-title", id: "todo-title", required: true }
-        }, {
-            label: "Description",
-            input: { tagName: "textarea", name: "todo-description", id: "todo-description", rows: 5 }
-        }, {
-            label: "Due Date",
-            input: { tagName: "input", type: "date", name: "todo-dueDate", id: "todo-dueDate", min: `${new Date().toISOString().split('T')[0]}` }
-        }, {
-            label: "Priority",
-            input: { tagName: "select", name: "priority-select", id: "priority-select" },
-            options: [
-                { value: "low", text: "Low" },
-                { value: "normal", text: "Normal" },
-                { value: "high", text: "High" }]
-        },];
-
-        taskFormFields.forEach((field) => {
-            const formWrapper = document.createElement("div");
-            formWrapper.classList.add("task-form-wrapper");
-
-            const label = document.createElement("label");
-            label.htmlFor = field.input.id;
-            label.textContent = field.label;
-
-            const input = document.createElement(field.input.tagName);
-            input.classList.add("task-input");
-            for (const key in field.input) {
-                if (key !== "tagName") {
-                    input.setAttribute(key, field.input[key]);
-                }
-            }
-
-            if (field.input.tagName === "select" && field.options) {
-                field.options.forEach(optData => {
-                    const option = document.createElement("option");
-                    option.value = optData.value;
-                    option.textContent = optData.text;
-                    input.appendChild(option);
-                });
-            }
-            formWrapper.append(label, input);
-            taskForm.appendChild(formWrapper);
-        });
-
-        const taskFormBtnWrapper = document.createElement("div");
-        taskFormBtnWrapper.classList.add("task-form-wrapper", "task-form-btn-wrapper");
-
-        const cancelBtn = document.createElement("button");
-        cancelBtn.classList.add("cancel-btn");
-        cancelBtn.textContent = "Cancel";
-        cancelBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            this.body.querySelector(".add-task-modal").close();
-        });
-
-        const submitBtn = document.createElement("button");
-        submitBtn.classList.add("submit-task-btn");
-        submitBtn.textContent = "Add Task";
-
+    createAddTaskForm() {
+        const taskForm = this.createBaseTaskForm("Add task", "Add Task");
         taskForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            this.handleTaskFormSubmit(taskForm);
+            this.handleAddTaskFormSubmit(taskForm);
         });
-
-        taskFormBtnWrapper.append(cancelBtn, submitBtn);
-        taskForm.appendChild(taskFormBtnWrapper);
 
         return taskForm;
     }
 
-    handleTaskFormSubmit(taskForm) {
-        const formData = new FormData(taskForm); // Create key-value pairs from form elements, e.g. key = "todo-title", value = user input 
+    handleAddTaskFormSubmit(taskForm) {
+        // Create key-value pairs from form elements, e.g. key = "todo-title", value = user input 
+        const formData = new FormData(taskForm);
 
         if (!formData.get("todo-title").trim()) {
             alert("Please enter a title.");
             return;
         }
 
+        //if date is not select, set it to today
         if (!formData.get("todo-dueDate")) {
-            formData.set("todo-dueDate", new Date().toISOString().split('T')[0]); //if date is not select, set it to today
+            formData.set("todo-dueDate", new Date().toISOString().split('T')[0]);
         }
 
         const taskData = {
@@ -153,15 +84,16 @@ export class RenderUI {
             priority: formData.get("priority-select")
         };
 
-        if (this.eventHandlers.onTaskFormSubmit) {
-            this.eventHandlers.onTaskFormSubmit(taskData); //call the function when form submits
+        //callback when form submits
+        if (this.eventHandlers.onAddTaskFormSubmit) {
+            this.eventHandlers.onAddTaskFormSubmit(taskData);
         }
 
         this.body.querySelector(".add-task-modal").close();
         taskForm.reset();
     }
 
-    updateTaskDisplay(tasks) {
+    updateTasksDisplay(tasks) {
         const todosContainer = this.body.querySelector(".todos-container");
         const addTaskBtn = todosContainer.querySelector(".add-task-btn");
 
@@ -228,6 +160,83 @@ export class RenderUI {
         this.body.append(todoDetailModal);
 
         return todoDetailModal;
+    }
+
+    createBaseTaskForm(header, btnContent) {
+        const taskForm = document.createElement("form");
+        taskForm.classList.add("task-form");
+
+        const taskFormHeader = document.createElement("h2");
+        taskFormHeader.classList.add("task-form-header");
+        taskFormHeader.textContent = header;
+        taskForm.appendChild(taskFormHeader);
+
+        const taskFormFields = [{
+            label: "Title*",
+            input: { tagName: "input", type: "text", name: "todo-title", id: "todo-title", required: true }
+        }, {
+            label: "Description",
+            input: { tagName: "textarea", name: "todo-description", id: "todo-description", rows: 5 }
+        }, {
+            label: "Due Date",
+            input: { tagName: "input", type: "date", name: "todo-dueDate", id: "todo-dueDate", min: `${new Date().toISOString().split("T")[0]}` }
+        }, {
+            label: "Priority",
+            input: { tagName: "select", name: "priority-select", id: "priority-select" },
+            options: [
+                { value: "low", text: "Low" },
+                { value: "normal", text: "Normal" },
+                { value: "high", text: "High" }
+            ]
+        }];
+
+        taskFormFields.forEach((field) => {
+            const formWrapper = document.createElement("div");
+            formWrapper.classList.add("task-form-wrapper");
+
+            const label = document.createElement("label");
+            label.htmlFor = field.input.id;
+            label.textContent = field.label;
+
+            const input = document.createElement(field.input.tagName);
+            input.classList.add("task-input");
+            for (const key in field.input) {
+                if (key !== "tagName") {
+                    input.setAttribute(key, field.input[key]);
+                }
+            }
+
+            if (field.input.tagName === "select" && field.options) {
+                field.options.forEach(optData => {
+                    const option = document.createElement("option");
+                    option.value = optData.value;
+                    option.textContent = optData.text;
+                    input.appendChild(option);
+                });
+            }
+            formWrapper.append(label, input);
+            taskForm.appendChild(formWrapper);
+        });
+
+        const taskFormBtnWrapper = document.createElement("div");
+        taskFormBtnWrapper.classList.add("task-form-wrapper", "task-form-btn-wrapper");
+
+        const cancelBtn = document.createElement("button");
+        cancelBtn.classList.add("cancel-btn");
+        cancelBtn.textContent = "Cancel";
+        cancelBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            this.body.querySelector(".add-task-modal").close();
+        });
+
+        const submitBtn = document.createElement("button");
+        submitBtn.classList.add("submit-task-btn");
+        submitBtn.textContent = btnContent;
+
+        taskFormBtnWrapper.append(cancelBtn, submitBtn);
+        taskForm.appendChild(taskFormBtnWrapper);
+
+        return taskForm;
     }
 
     renderFooter() {
