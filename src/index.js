@@ -32,6 +32,10 @@ const todoUI = new RenderUI(document.body, {
     onEditTaskFormSubmit: (taskID, taskData) => {
         taskManager.update(taskID, taskData);
         todoUI.updateTasksDisplay(taskManager.listAll());
+    },
+    onDeleteTaskBtnClick: (taskID) => {
+        taskManager.delete(taskID);
+        todoUI.updateTasksDisplay(taskManager.listAll());
     }
 });
 

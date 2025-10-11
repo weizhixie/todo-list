@@ -18,6 +18,7 @@
     --mint-green: #CCE3DE;
     --azure: #EAF4F4;
     --mint-cream: #F6FFF8;
+    --chili-red: #D64933;
 }
 
 html,
@@ -118,7 +119,8 @@ body {
 .detail-btn,
 .close-detail-btn,
 .submit-task-btn,
-.edit-btn {
+.edit-btn,
+.delete-btn {
     background: linear-gradient(to bottom right, var(--viridian), var(--mint-cream));
     font-size: 1.1rem;
     padding: 5px;
@@ -126,12 +128,17 @@ body {
     border: 0;
 }
 
+.delete-btn {
+    background: var(--chili-red);
+}
+
 .detail-btn:hover,
 .close-detail-btn:hover,
 .submit-task-btn:hover,
 .cancel-btn:hover,
 .add-task-btn:hover,
-.edit-btn:hover {
+.edit-btn:hover,
+.delete-btn:hover {
     filter: brightness(120%);
     cursor: pointer;
 }

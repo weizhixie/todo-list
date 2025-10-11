@@ -101,6 +101,10 @@ export class RenderUI {
         this.body.querySelector(".task-modal").close();
     }
 
+    handleDeleteTask(taskID) {
+        this.eventHandlers.onDeleteTaskBtnClick(taskID);
+    }
+
     updateTasksDisplay(tasks) {
         const todosContainer = this.body.querySelector(".todos-container");
         const addTaskBtn = todosContainer.querySelector(".add-task-btn");
@@ -108,7 +112,13 @@ export class RenderUI {
         todosContainer.textContent = "";
         todosContainer.appendChild(addTaskBtn);
 
-        this.renderTasks(tasks);
+        if (tasks.length === 0) {
+            const emptyTodo = document.createElement("p");
+            emptyTodo.textContent = "No task yet.";
+            todosContainer.appendChild(emptyTodo);
+        } else {
+            this.renderTasks(tasks);
+        }
     }
 
     parseTaskFormData(taskForm) {
@@ -134,6 +144,8 @@ export class RenderUI {
     }
 
     renderTasks(tasks) {
+        const todosContainer = this.body.querySelector(".todos-container");
+
         tasks.forEach((task) => {
             const taskItem = document.createElement("p");
             taskItem.textContent = ` ${task.title} ${task.dueDate}`;
@@ -148,10 +160,14 @@ export class RenderUI {
             editBtn.classList.add("edit-btn");
             editBtn.textContent = "Edit";
             editBtn.addEventListener("click", () => this.openTaskModal("edit-task", task));
-            taskItem.appendChild(editBtn);
 
-            taskItem.appendChild(detailBtn);
-            this.body.querySelector(".todos-container").appendChild(taskItem);
+            const deleteBtn = document.createElement("button");
+            deleteBtn.classList.add("delete-btn");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.addEventListener("click", () => this.handleDeleteTask(task.id));
+
+            taskItem.append(detailBtn, editBtn, deleteBtn);
+            todosContainer.appendChild(taskItem);
         });
     }
 
