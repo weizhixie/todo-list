@@ -28,6 +28,10 @@ const todoUI = new RenderUI(document.body, {
         const newTask = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority);
         taskManager.create(newTask);
         todoUI.updateTasksDisplay(taskManager.listAll());
+    },
+    onEditTaskFormSubmit: (taskID, taskData) => {
+        taskManager.update(taskID, taskData);
+        todoUI.updateTasksDisplay(taskManager.listAll());
     }
 });
 

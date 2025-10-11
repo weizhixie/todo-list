@@ -85,8 +85,20 @@ export class RenderUI {
         taskForm.querySelector("#todo-description").value = task.description;
         taskForm.querySelector("#todo-dueDate").value = task.dueDate;
         taskForm.querySelector("#priority-select").value = task.priority;
+        taskForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            this.handleEditTaskFormSubmit(taskForm, task.id);
+        });
 
         return taskForm;
+    }
+
+    handleEditTaskFormSubmit(taskForm, taskID) {
+        const taskData = this.parseTaskFormData(taskForm);
+
+        this.eventHandlers.onEditTaskFormSubmit(taskID, taskData);
+
+        this.body.querySelector(".task-modal").close();
     }
 
     updateTasksDisplay(tasks) {
