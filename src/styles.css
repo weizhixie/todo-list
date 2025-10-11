@@ -109,6 +109,17 @@ body {
     background-color: var(--mint-green);
     margin-top: 10px;
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    /* wrap on small screens */
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.task-item-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .task-item:hover {

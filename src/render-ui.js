@@ -148,8 +148,14 @@ export class RenderUI {
 
         tasks.forEach((task) => {
             const taskItem = document.createElement("p");
-            taskItem.textContent = ` ${task.title} ${task.dueDate}`;
+            taskItem.textContent = ` ${task.title}`;
             taskItem.classList.add("task-item");
+
+            const taskItemWrapper = document.createElement("div");
+            taskItemWrapper.classList.add("task-item-wrapper");
+
+            const dueDate = document.createElement("p");
+            dueDate.textContent = `${task.dueDate}`;
 
             const detailBtn = document.createElement("button");
             detailBtn.classList.add("detail-btn");
@@ -166,7 +172,8 @@ export class RenderUI {
             deleteBtn.textContent = "Delete";
             deleteBtn.addEventListener("click", () => this.handleDeleteTask(task.id));
 
-            taskItem.append(detailBtn, editBtn, deleteBtn);
+            taskItemWrapper.append(dueDate, detailBtn, editBtn, deleteBtn);
+            taskItem.appendChild(taskItemWrapper);
             todosContainer.appendChild(taskItem);
         });
     }
