@@ -60,7 +60,7 @@ body {
     background: none;
 }
 
-.add-task-modal {
+.task-modal {
     background-color: var(--azure);
     margin: auto;
     border-radius: 10px;
@@ -117,7 +117,8 @@ body {
 
 .detail-btn,
 .close-detail-btn,
-.submit-task-btn {
+.submit-task-btn,
+.edit-btn {
     background: linear-gradient(to bottom right, var(--viridian), var(--mint-cream));
     font-size: 1.1rem;
     padding: 5px;
@@ -129,7 +130,8 @@ body {
 .close-detail-btn:hover,
 .submit-task-btn:hover,
 .cancel-btn:hover,
-.add-task-btn:hover {
+.add-task-btn:hover,
+.edit-btn:hover {
     filter: brightness(120%);
     cursor: pointer;
 }
@@ -145,7 +147,8 @@ body {
     position: relative;
 }
 
-.todo-detail-modal::backdrop {
+.todo-detail-modal::backdrop,
+.task-modal::backdrop {
     backdrop-filter: blur(3px);
 }
 

@@ -26,7 +26,7 @@ export class RenderUI {
         const addTaskBtn = document.createElement("button");
         addTaskBtn.classList.add("add-task-btn");
         addTaskBtn.textContent = `\u2295 Add Task`;
-        addTaskBtn.addEventListener("click", () => this.openAddTaskModal());
+        addTaskBtn.addEventListener("click", () => this.openTaskModal("add-task"));
 
         todosContainer.appendChild(addTaskBtn);
         mainSection.append(sideBar, todosContainer);
@@ -34,23 +34,28 @@ export class RenderUI {
         return mainSection;
     }
 
-    openAddTaskModal() {
-        let addTaskModal = this.body.querySelector(".add-task-modal");
-
-        if (!addTaskModal) {
-            addTaskModal = document.createElement("dialog");
-            addTaskModal.classList.add("add-task-modal");
-
-            const xSignCloseBtn = document.createElement("button");
-            xSignCloseBtn.classList.add("x-sign-close-btn");
-            xSignCloseBtn.textContent = '\u2715';
-            xSignCloseBtn.addEventListener("click", () => addTaskModal.close());
-
-            addTaskModal.append(this.createAddTaskForm(), xSignCloseBtn);
-            this.body.appendChild(addTaskModal);
+    openTaskModal(mode, task) {
+        const existingModal = this.body.querySelector(".task-modal");
+        if (existingModal) {
+            existingModal.remove();
         }
 
-        addTaskModal.showModal();
+        const taskModal = document.createElement("dialog");
+        taskModal.classList.add("task-modal");
+
+        const xSignCloseBtn = document.createElement("button");
+        xSignCloseBtn.classList.add("x-sign-close-btn");
+        xSignCloseBtn.textContent = '\u2715';
+        xSignCloseBtn.addEventListener("click", () => taskModal.close());
+
+        if (mode === "add-task") {
+            taskModal.append(this.createAddTaskForm(), xSignCloseBtn);
+        } else {
+            taskModal.append(this.createEditTaskForm(task), xSignCloseBtn);
+        }
+
+        this.body.appendChild(taskModal);
+        taskModal.showModal();
     }
 
     createAddTaskForm() {
@@ -64,33 +69,24 @@ export class RenderUI {
     }
 
     handleAddTaskFormSubmit(taskForm) {
-        // Create key-value pairs from form elements, e.g. key = "todo-title", value = user input 
-        const formData = new FormData(taskForm);
-
-        if (!formData.get("todo-title").trim()) {
-            alert("Please enter a title.");
-            return;
-        }
-
-        //if date is not select, set it to today
-        if (!formData.get("todo-dueDate")) {
-            formData.set("todo-dueDate", new Date().toISOString().split('T')[0]);
-        }
-
-        const taskData = {
-            title: formData.get("todo-title"),
-            description: formData.get("todo-description"),
-            dueDate: formData.get("todo-dueDate"),
-            priority: formData.get("priority-select")
-        };
+        const taskData = this.parseTaskFormData(taskForm);
 
         //callback when form submits
-        if (this.eventHandlers.onAddTaskFormSubmit) {
-            this.eventHandlers.onAddTaskFormSubmit(taskData);
-        }
+        this.eventHandlers.onAddTaskFormSubmit(taskData);
 
-        this.body.querySelector(".add-task-modal").close();
+        this.body.querySelector(".task-modal").close();
         taskForm.reset();
+    }
+
+    createEditTaskForm(task) {
+        const taskForm = this.createBaseTaskForm("Edit task", "Update Task");
+
+        taskForm.querySelector("#todo-title").value = task.title;
+        taskForm.querySelector("#todo-description").value = task.description;
+        taskForm.querySelector("#todo-dueDate").value = task.dueDate;
+        taskForm.querySelector("#priority-select").value = task.priority;
+
+        return taskForm;
     }
 
     updateTasksDisplay(tasks) {
@@ -103,6 +99,28 @@ export class RenderUI {
         this.renderTasks(tasks);
     }
 
+    parseTaskFormData(taskForm) {
+        // Create key-value pairs from form elements, e.g. key = "todo-title", value = user input 
+        const formData = new FormData(taskForm);
+
+        if (!formData.get("todo-title").trim()) {
+            alert("Please enter a title.");
+            return;
+        }
+
+        //if date is not select, set it to today
+        if (!formData.get("todo-dueDate")) {
+            formData.set("todo-dueDate", new Date().toISOString().split("T")[0]);
+        }
+
+        return {
+            title: formData.get("todo-title"),
+            description: formData.get("todo-description"),
+            dueDate: formData.get("todo-dueDate"),
+            priority: formData.get("priority-select")
+        };
+    }
+
     renderTasks(tasks) {
         tasks.forEach((task) => {
             const taskItem = document.createElement("p");
@@ -113,6 +131,12 @@ export class RenderUI {
             detailBtn.classList.add("detail-btn");
             detailBtn.textContent = "Details";
             detailBtn.addEventListener("click", () => this.openTodoDetail(task));
+
+            const editBtn = document.createElement("button");
+            editBtn.classList.add("edit-btn");
+            editBtn.textContent = "Edit";
+            editBtn.addEventListener("click", () => this.openTaskModal("edit-task", task));
+            taskItem.appendChild(editBtn);
 
             taskItem.appendChild(detailBtn);
             this.body.querySelector(".todos-container").appendChild(taskItem);
@@ -184,9 +208,9 @@ export class RenderUI {
             label: "Priority",
             input: { tagName: "select", name: "priority-select", id: "priority-select" },
             options: [
-                { value: "low", text: "Low" },
-                { value: "normal", text: "Normal" },
-                { value: "high", text: "High" }
+                { value: "Low", text: "Low" },
+                { value: "Normal", text: "Normal" },
+                { value: "High", text: "High" }
             ]
         }];
 
@@ -226,7 +250,7 @@ export class RenderUI {
         cancelBtn.textContent = "Cancel";
         cancelBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            this.body.querySelector(".add-task-modal").close();
+            this.body.querySelector(".task-modal").close();
         });
 
         const submitBtn = document.createElement("button");
