@@ -35,6 +35,9 @@ export class RenderUI {
     }
 
     handleSideBarNav(sideBarNav) {
+        const sideBarAll = sideBarNav.querySelector("#sidebar-all");
+        sideBarAll.addEventListener("click", () => this.eventHandlers.getAllTasks());
+
         const sideBarToday = sideBarNav.querySelector("#sidebar-today");
         sideBarToday.addEventListener("click", () => this.eventHandlers.getTasksDueToday());
     }
