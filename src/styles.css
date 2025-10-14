@@ -44,8 +44,25 @@ body {
     grid-template-columns: 2fr 6fr;
 }
 
-.side-bar {
+/* side bar section */
+.side-bar-container {
     background-color: var(--azure);
+    padding: 12px;
+    list-style: none;
+    font-size: 1.6rem;
+}
+
+.sidebar-menu-item {
+    background-color: var(--mint-green);
+    margin-bottom: 12px;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.sidebar-menu-item:hover {
+    border: 2px solid var(--viridian);
+    background: none;
+    cursor: pointer;
 }
 
 /* main section - Todos */

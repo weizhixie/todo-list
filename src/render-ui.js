@@ -16,9 +16,8 @@ export class RenderUI {
         const mainSection = document.createElement("main");
         mainSection.classList.add("main-section");
 
-        const sideBar = document.createElement("aside");
-        sideBar.classList.add("side-bar");
-        sideBar.textContent = `Side bar`;
+        const sideBarContainer = document.createElement("aside");
+        sideBarContainer.classList.add("side-bar-container");
 
         const todosContainer = document.createElement("div");
         todosContainer.classList.add("todos-container");
@@ -28,10 +27,36 @@ export class RenderUI {
         addTaskBtn.textContent = `\u2295 Add Task`;
         addTaskBtn.addEventListener("click", () => this.openTaskModal("add-task"));
 
+        sideBarContainer.appendChild(this.renderSideBar());
         todosContainer.appendChild(addTaskBtn);
-        mainSection.append(sideBar, todosContainer);
+        mainSection.append(sideBarContainer, todosContainer);
 
         return mainSection;
+    }
+
+    renderSideBar() {
+        const sideBarNav = document.createElement("nav");
+        const menuList = document.createElement("menu");
+
+        const menuItems = [
+            { text: "All", id: "sidebar-all" },
+            { text: "Today", id: "sidebar-today" },
+            { text: "Upcoming", id: "sidebar-upcoming" },
+            { text: "Completed", id: "sidebar-completed" },
+            { text: "Projects", id: "sidebar-projects" }
+        ];
+
+        menuItems.forEach((item) => {
+            const menuItem = document.createElement("li");
+            menuItem.classList.add("sidebar-menu-item");
+            menuItem.setAttribute("id", item.id);
+            menuItem.textContent = item.text;
+            menuList.appendChild(menuItem);
+        });
+
+        sideBarNav.appendChild(menuList);
+
+        return sideBarNav;
     }
 
     openTaskModal(mode, task) {
