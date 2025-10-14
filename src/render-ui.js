@@ -40,6 +40,9 @@ export class RenderUI {
 
         const sideBarToday = sideBarNav.querySelector("#sidebar-today");
         sideBarToday.addEventListener("click", () => this.eventHandlers.getTasksDueToday());
+
+        const sideBarUpcoming = sideBarNav.querySelector("#sidebar-upcoming");
+        sideBarUpcoming.addEventListener("click", () => this.eventHandlers.getTasksUpcoming());
     }
 
     renderSideBar() {

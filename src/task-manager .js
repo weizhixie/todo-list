@@ -37,6 +37,11 @@ export class TaskManager {
 
     listTasksDueToday() {
         const today = new Date().toISOString().split("T")[0];
-        return this.#tasks.filter((task) => task.dueDate === today);
+        return this.#tasks.filter(task => task.dueDate === today);
+    }
+
+    listTasksUpcoming() {
+        const today = new Date().toISOString().split("T")[0];
+        return this.#tasks.filter(task => task.dueDate > today);
     }
 }
