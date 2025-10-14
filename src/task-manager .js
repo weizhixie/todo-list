@@ -25,7 +25,7 @@ export class TaskManager {
 
     delete(taskId) {
         const taskIndex = this.#tasks.findIndex(task => task.id === taskId);
-        
+
         if (taskIndex !== -1) {
             this.#tasks.splice(taskIndex, 1);
         }
@@ -33,5 +33,10 @@ export class TaskManager {
 
     listAll() {
         return this.#tasks;
+    }
+
+    listTasksDueToday() {
+        const today = new Date().toISOString().split("T")[0];
+        return this.#tasks.filter((task) => task.dueDate === today);
     }
 }

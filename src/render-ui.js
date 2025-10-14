@@ -34,6 +34,11 @@ export class RenderUI {
         return mainSection;
     }
 
+    handleSideBarNav(sideBarNav) {
+        const sideBarToday = sideBarNav.querySelector("#sidebar-today");
+        sideBarToday.addEventListener("click", () => this.eventHandlers.getTasksDueToday());
+    }
+
     renderSideBar() {
         const sideBarNav = document.createElement("nav");
         const menuList = document.createElement("menu");
@@ -55,6 +60,7 @@ export class RenderUI {
         });
 
         sideBarNav.appendChild(menuList);
+        this.handleSideBarNav(sideBarNav);
 
         return sideBarNav;
     }

@@ -6,7 +6,7 @@ import { RenderUI } from "./render-ui.js";
 const taskManager = new TaskManager();
 
 const dummyTodoTasks = [
-    { title: "Buy groceries", description: "Get milk, eggs, bread, and vegetables from the supermarket.", dueDate: "2025-10-10", priority: "High" },
+    { title: "Buy groceries", description: "Get milk, eggs, bread, and vegetables from the supermarket.", dueDate: `${new Date().toISOString().split("T")[0]}`, priority: "High" },
     { title: "Finish project report", description: "Compile research findings and format the final report for submission.", dueDate: "2025-10-15", priority: "High" },
     { title: "Call the plumber", description: "Fix the leaking kitchen sink before the weekend.", dueDate: "2025-10-08", priority: "Normal" },
     { title: "Plan weekend trip", description: "Book accommodation and plan itinerary for the short getaway.", dueDate: "2025-10-12", priority: "Low" },
@@ -36,7 +36,8 @@ const todoUI = new RenderUI(document.body, {
     onDeleteTaskBtnClick: (taskID) => {
         taskManager.delete(taskID);
         todoUI.updateTasksDisplay(taskManager.listAll());
-    }
+    },
+    getTasksDueToday: () => todoUI.updateTasksDisplay(taskManager.listTasksDueToday())
 });
 
 todoUI.updateTasksDisplay(taskManager.listAll());
