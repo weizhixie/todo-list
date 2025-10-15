@@ -185,10 +185,12 @@ export class RenderUI {
 
     renderTasks(tasks) {
         const todosContainer = this.body.querySelector(".todos-container");
+        const priorityClr = { Low: "#7CFC00", Normal: "#FFA500", High: "#D64933" };
 
         tasks.forEach((task) => {
             const taskItem = document.createElement("p");
             taskItem.classList.add("task-item");
+            taskItem.style.borderLeft = `3px solid ${priorityClr[task.priority]}`;
 
             const taskWrapperLeft = document.createElement("div");
             taskWrapperLeft.classList.add("task-wrapper-left");
