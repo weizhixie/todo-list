@@ -43,6 +43,9 @@ export class RenderUI {
 
         const sideBarUpcoming = sideBarNav.querySelector("#sidebar-upcoming");
         sideBarUpcoming.addEventListener("click", () => this.eventHandlers.getTasksUpcoming());
+
+        const sideBarCompleted = sideBarNav.querySelector("#sidebar-completed");
+        sideBarCompleted.addEventListener("click", () => this.eventHandlers.getTasksCompleted());
     }
 
     renderSideBar() {

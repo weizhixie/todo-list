@@ -44,4 +44,8 @@ export class TaskManager {
         const today = new Date().toISOString().split("T")[0];
         return this.#tasks.filter(task => task.dueDate > today);
     }
+
+    listTasksCompleted() {
+        return this.#tasks.filter(task => task.completed === true);
+    }
 }
