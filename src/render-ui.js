@@ -185,11 +185,30 @@ export class RenderUI {
 
         tasks.forEach((task) => {
             const taskItem = document.createElement("p");
-            taskItem.textContent = ` ${task.title}`;
             taskItem.classList.add("task-item");
 
-            const taskItemWrapper = document.createElement("div");
-            taskItemWrapper.classList.add("task-item-wrapper");
+            const taskWrapperLeft = document.createElement("div");
+            taskWrapperLeft.classList.add("task-wrapper-left");
+
+            const completeToggle = document.createElement("input");
+            completeToggle.classList.add("complete-toggle");
+            completeToggle.type = "checkbox";
+            completeToggle.checked = task.completed;
+
+            const title = document.createElement("p");
+            title.textContent = ` ${task.title}`;
+            if (task.completed) {
+                title.classList.add("task-complete");
+            }
+
+            completeToggle.addEventListener("change", () => {
+                this.eventHandlers.onToggleCompleted(task);
+                //set task-complete to be present if task.completed is truthy, and absent if it's falsy
+                title.classList.toggle("task-complete", task.completed);
+            });
+
+            const taskWrapperRight = document.createElement("div");
+            taskWrapperRight.classList.add("task-wrapper-right");
 
             const dueDate = document.createElement("p");
             dueDate.textContent = `${task.dueDate}`;
@@ -209,8 +228,9 @@ export class RenderUI {
             deleteBtn.textContent = "Delete";
             deleteBtn.addEventListener("click", () => this.handleDeleteTask(task.id));
 
-            taskItemWrapper.append(dueDate, detailBtn, editBtn, deleteBtn);
-            taskItem.appendChild(taskItemWrapper);
+            taskWrapperLeft.append(completeToggle, title);
+            taskWrapperRight.append(dueDate, detailBtn, editBtn, deleteBtn);
+            taskItem.append(taskWrapperLeft, taskWrapperRight);
             todosContainer.appendChild(taskItem);
         });
     }

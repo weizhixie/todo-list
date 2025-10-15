@@ -133,7 +133,41 @@ body {
     gap: 5px;
 }
 
-.task-item-wrapper {
+.task-wrapper-left {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.complete-toggle {
+    /* Remove checkbox native input styles */
+    appearance: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid var(--viridian);
+    display: grid;
+    align-content: center;
+    justify-content: center;
+}
+
+.complete-toggle::before {
+    content: "";
+    width: 0.7rem;
+    height: 0.7rem;
+    clip-path: polygon(15% 45%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 45% 62%);
+    transform: scale(0);
+    background-color: var(--chili-red);
+}
+
+.complete-toggle:checked:before {
+    transform: scale(1);
+}
+
+.task-complete {
+    text-decoration: line-through;
+}
+
+.task-wrapper-right {
     display: flex;
     align-items: center;
     gap: 10px;
