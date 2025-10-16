@@ -12,6 +12,10 @@ export class Project {
         return this.#id;
     }
 
+    get tasks() {
+        return this.#tasks;
+    }
+
     addTask(task) {
         this.#tasks.push(task);
     }

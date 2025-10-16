@@ -10,28 +10,32 @@ export class ProjectManager {
         return project;
     }
 
-    update(projectId, newName) {
+    update(projectID, newName) {
         this.#projects = this.#projects.map((project) => {
-            if (project.id === projectId) {
+            if (project.id === projectID) {
                 project.name = newName;
             }
             return project;
         });
     }
 
-    delete(projectId) {
-        const projectIndex = this.#projects.findIndex(project => project.id === projectId);
+    delete(projectID) {
+        const projectIndex = this.#projects.findIndex(project => project.id === projectID);
 
         if (projectIndex !== -1) {
             this.#projects.splice(projectIndex, 1);
         }
     }
 
-    listByProject(projectId) {
-        return this.#projects.find(project => project.id === projectId);
+    listByProject(projectID) {
+        return this.#projects.find(project => project.id === projectID);
     }
 
     listAll() {
         return this.#projects;
+    }
+
+    findProjectOfTask(taskID) {
+        return this.#projects.find(project => project.tasks.some(list => list.id === taskID));
     }
 }
