@@ -247,6 +247,7 @@ export class RenderUI {
         todoDetailModal.querySelector(".todo-detail-desc").textContent = `Details: ${task.description}`;
         todoDetailModal.querySelector(".todo-detail-due").textContent = `DueDate: ${task.dueDate}`;
         todoDetailModal.querySelector(".todo-detail-priority").textContent = `Priority: ${task.priority}`;
+        todoDetailModal.querySelector(".todo-detail-project").textContent = `Project: ${task.projectName}`;
 
         todoDetailModal.showModal();
     }
@@ -267,6 +268,9 @@ export class RenderUI {
         const todoDetailPriority = document.createElement("p");
         todoDetailPriority.classList.add("todo-detail-priority", "todo-detail-para");
 
+        const todoDetailProject = document.createElement("p");
+        todoDetailProject.classList.add("todo-detail-project", "todo-detail-para");
+
         const xSignCloseBtn = document.createElement("button");
         xSignCloseBtn.classList.add("x-sign-close-btn");
         xSignCloseBtn.textContent = '\u2715';
@@ -277,7 +281,7 @@ export class RenderUI {
         closeDetailBtn.textContent = "Close Detail";
         closeDetailBtn.addEventListener("click", () => todoDetailModal.close());
 
-        todoDetailModal.append(todoDetailTitle, todoDetailDesc, todoDetailDue, todoDetailPriority, xSignCloseBtn, closeDetailBtn);
+        todoDetailModal.append(todoDetailTitle, todoDetailDesc, todoDetailDue, todoDetailPriority, todoDetailProject, xSignCloseBtn, closeDetailBtn);
         this.body.append(todoDetailModal);
 
         return todoDetailModal;
