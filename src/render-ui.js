@@ -175,11 +175,16 @@ export class RenderUI {
             formData.set("todo-dueDate", new Date().toISOString().split("T")[0]);
         }
 
+        if (!formData.get("todo-project").trim()) {
+            formData.set("todo-project", "Default");
+        }
+
         return {
             title: formData.get("todo-title"),
             description: formData.get("todo-description"),
             dueDate: formData.get("todo-dueDate"),
-            priority: formData.get("priority-select")
+            priority: formData.get("priority-select"),
+            project: formData.get("todo-project")
         };
     }
 
@@ -313,6 +318,9 @@ export class RenderUI {
                 { value: "Normal", text: "Normal" },
                 { value: "High", text: "High" }
             ]
+        }, {
+            label: "Project",
+            input: { tagName: "input", type: "text", name: "todo-project", id: "todo-project", value: "Default" }
         }];
 
         taskFormFields.forEach((field) => {

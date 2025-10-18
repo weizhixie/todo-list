@@ -34,7 +34,12 @@ const todoUI = new RenderUI(document.body, {
     onAddTaskFormSubmit: (taskData) => {
         const newTask = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority);
         taskManager.create(newTask);
-        todoUI.updateTasksDisplay(taskManager.listAll());
+
+        const newProject = new Project(taskData.project);
+        projectManager.create(newProject);
+        newProject.addTask(newTask);
+
+        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
     },
     onEditTaskFormSubmit: (taskID, taskData) => {
         taskManager.update(taskID, taskData);
