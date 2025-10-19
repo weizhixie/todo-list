@@ -142,8 +142,8 @@ export class RenderUI {
         this.body.querySelector(".task-modal").close();
     }
 
-    handleDeleteTask(taskID) {
-        this.eventHandlers.onDeleteTaskBtnClick(taskID);
+    handleDeleteTask(task) {
+        this.eventHandlers.onDeleteTaskBtnClick(task);
     }
 
     updateTasksDisplay(tasks) {
@@ -237,7 +237,7 @@ export class RenderUI {
             const deleteBtn = document.createElement("button");
             deleteBtn.classList.add("delete-btn");
             deleteBtn.textContent = "Delete";
-            deleteBtn.addEventListener("click", () => this.handleDeleteTask(task.id));
+            deleteBtn.addEventListener("click", () => this.handleDeleteTask(task));
 
             taskWrapperLeft.append(completeToggle, title);
             taskWrapperRight.append(dueDate, detailBtn, editBtn, deleteBtn);

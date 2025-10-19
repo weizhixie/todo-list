@@ -46,9 +46,10 @@ const todoUI = new RenderUI(document.body, {
         projectManager.update(task.projectID, taskData.project);
         todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
     },
-    onDeleteTaskBtnClick: (taskID) => {
-        taskManager.delete(taskID);
-        todoUI.updateTasksDisplay(taskManager.listAll());
+    onDeleteTaskBtnClick: (task) => {
+        taskManager.delete(task.id);
+        projectManager.delete(task.projectID);
+        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
     },
     getTasksDueToday: () => todoUI.updateTasksDisplay(taskManager.listTasksDueToday()),
     getAllTasks: () => todoUI.updateTasksDisplay(taskManager.listAll()),
