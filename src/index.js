@@ -54,8 +54,11 @@ const todoUI = new RenderUI(document.body, {
     getTasksDueToday: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listTasksDueToday())),
     getAllTasks: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll())),
     getTasksUpcoming: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listTasksUpcoming())),
-    getTasksCompleted: () => todoUI.updateTasksDisplay(taskManager.listTasksCompleted()),
-    onToggleCompleted: (task) => task.toggleCompleted(),
+    getTasksCompleted: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listTasksCompleted())),
+    onToggleCompleted: (task) => {
+        taskManager.toggleCompleted(task.id);
+        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+    },
 });
 
 todoUI.renderTasks(getTasksWithProjects(taskManager.listAll()));

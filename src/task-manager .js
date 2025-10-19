@@ -48,4 +48,8 @@ export class TaskManager {
     listTasksCompleted() {
         return this.#tasks.filter(task => task.completed === true);
     }
+
+    toggleCompleted(taskId) {
+        this.#tasks.find(task => task.id === taskId).toggleCompleted();
+    }
 }
