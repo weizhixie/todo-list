@@ -33,6 +33,7 @@ const todoUI = new RenderUI(document.body, {
         taskManager.create(newTask);
         addTaskToProject(newTask, taskData.project);
         todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+        todoUI.updateProjectsDisplay(projectManager.listAll());
     },
     onEditTaskFormSubmit: (task, taskData) => {
         taskManager.update(task.id, taskData);
@@ -55,6 +56,7 @@ const todoUI = new RenderUI(document.body, {
 });
 
 todoUI.renderTasks(getTasksWithProjects(taskManager.listAll()));
+todoUI.renderProjectList(projectManager.listAll());
 
 function getTasksWithProjects(tasks) {
     return tasks.map(task => {

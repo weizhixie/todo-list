@@ -57,7 +57,6 @@ export class RenderUI {
             { text: "Today", id: "sidebar-today" },
             { text: "Upcoming", id: "sidebar-upcoming" },
             { text: "Completed", id: "sidebar-completed" },
-            // { text: "Projects", id: "sidebar-projects" }
         ];
 
         menuItems.forEach((item) => {
@@ -68,13 +67,38 @@ export class RenderUI {
             menuList.appendChild(menuItem);
         });
 
-        const projects = document.createElement("h3");
-        projects.textContent = "Projects";
+        const projectsHeader = document.createElement("h3");
+        projectsHeader.classList.add("projects-header");
+        projectsHeader.textContent = "Projects";
 
-        sideBarNav.append(menuList, projects);
+        const projectContainer = document.createElement("div");
+        projectContainer.classList.add("project-container");
+
+        sideBarNav.append(menuList, projectsHeader, projectContainer);
         this.handleSideBarNav(sideBarNav);
 
         return sideBarNav;
+    }
+
+    updateProjectsDisplay(projects) {
+        const projectContainer = this.body.querySelector(".project-container");
+        projectContainer.textContent = "";
+        this.renderProjectList(projects);
+    }
+
+    renderProjectList(projects) {
+        const projectContainer = this.body.querySelector(".project-container");
+        const projectMenu = document.createElement("menu");
+
+        projects.forEach((project) => {
+            const projectItem = document.createElement("li");
+            projectItem.classList.add("sidebar-menu-item");
+            projectItem.setAttribute("id", `project-${project.name}`);
+            projectItem.textContent = project.name;
+            projectMenu.appendChild(projectItem);
+        });
+
+        projectContainer.appendChild(projectMenu);
     }
 
     openTaskModal(mode, task) {
@@ -128,7 +152,7 @@ export class RenderUI {
         taskForm.querySelector("#todo-description").value = task.description;
         taskForm.querySelector("#todo-dueDate").value = task.dueDate;
         taskForm.querySelector("#priority-select").value = task.priority;
-        taskForm.querySelector("#todo-project").value = task.projectName;
+        taskForm.querySelector("#todo-project").value = task.projectItem;
         taskForm.addEventListener("submit", (e) => {
             e.preventDefault();
             this.handleEditTaskFormSubmit(taskForm, task);
@@ -256,7 +280,7 @@ export class RenderUI {
         todoDetailModal.querySelector(".todo-detail-desc").textContent = `Details: ${task.description}`;
         todoDetailModal.querySelector(".todo-detail-due").textContent = `DueDate: ${task.dueDate}`;
         todoDetailModal.querySelector(".todo-detail-priority").textContent = `Priority: ${task.priority}`;
-        todoDetailModal.querySelector(".todo-detail-project").textContent = `Project: ${task.projectName}`;
+        todoDetailModal.querySelector(".todo-detail-project").textContent = `Project: ${task.projectItem}`;
 
         todoDetailModal.showModal();
     }

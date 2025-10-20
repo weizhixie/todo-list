@@ -65,6 +65,15 @@ body {
     cursor: pointer;
 }
 
+.projects-header {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--viridian);
+}
+
+.project-container {
+    margin-top: 10px;
+}
+
 /* main section - Todos */
 .todos-container {
     padding: 20px;
