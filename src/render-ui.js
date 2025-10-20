@@ -96,6 +96,7 @@ export class RenderUI {
             projectItem.setAttribute("id", `project-${project.name}`);
             projectItem.textContent = project.name;
             projectMenu.appendChild(projectItem);
+            projectItem.addEventListener("click", () => this.eventHandlers.showProjectTasks(project));
         });
 
         projectContainer.appendChild(projectMenu);
