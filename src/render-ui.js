@@ -57,7 +57,7 @@ export class RenderUI {
             { text: "Today", id: "sidebar-today" },
             { text: "Upcoming", id: "sidebar-upcoming" },
             { text: "Completed", id: "sidebar-completed" },
-            { text: "Projects", id: "sidebar-projects" }
+            // { text: "Projects", id: "sidebar-projects" }
         ];
 
         menuItems.forEach((item) => {
@@ -68,7 +68,10 @@ export class RenderUI {
             menuList.appendChild(menuItem);
         });
 
-        sideBarNav.appendChild(menuList);
+        const projects = document.createElement("h3");
+        projects.textContent = "Projects";
+
+        sideBarNav.append(menuList, projects);
         this.handleSideBarNav(sideBarNav);
 
         return sideBarNav;

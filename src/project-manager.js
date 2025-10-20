@@ -10,42 +10,42 @@ export class ProjectManager {
         return project;
     }
 
-    update(projectID, newName) {
+    update(projectId, newName) {
         this.#projects = this.#projects.map((project) => {
-            if (project.id === projectID) {
+            if (project.id === projectId) {
                 project.name = newName;
             }
             return project;
         });
     }
 
-    delete(projectID) {
-        const projectIndex = this.#projects.findIndex(project => project.id === projectID);
+    delete(projectId) {
+        const projectIndex = this.#projects.findIndex(project => project.id === projectId);
 
         if (projectIndex !== -1) {
             this.#projects.splice(projectIndex, 1);
         }
     }
 
-    listByProject(projectID) {
-        return this.#projects.find(project => project.id === projectID);
+    listByProject(projectId) {
+        return this.#projects.find(project => project.id === projectId);
     }
 
     listAll() {
         return this.#projects;
     }
 
-    findProjectOfTask(taskID) {
-        return this.#projects.find(project => project.tasks.some(list => list.id === taskID));
+    findProjectOfTask(taskId) {
+        return this.#projects.find(project => project.tasks.some(list => list.id === taskId));
     }
 
     findProjectByName(projectName) {
         return this.#projects.find(project => project.name === projectName);
     }
 
-    deleteTaskFromProject(taskID) {
-        const projectTasks = this.findProjectOfTask(taskID).tasks;
-        const taskIndex = projectTasks.findIndex(task => task.id === taskID);
+    deleteTaskFromProject(taskId) {
+        const projectTasks = this.findProjectOfTask(taskId).tasks;
+        const taskIndex = projectTasks.findIndex(task => task.id === taskId);
 
         if (taskIndex !== -1) {
             projectTasks.splice(taskIndex, 1);

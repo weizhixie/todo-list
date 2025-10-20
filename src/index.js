@@ -36,7 +36,7 @@ const todoUI = new RenderUI(document.body, {
     },
     onEditTaskFormSubmit: (task, taskData) => {
         taskManager.update(task.id, taskData);
-        projectManager.update(task.projectID, taskData.project);
+        projectManager.update(task.projectId, taskData.project);
         todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
     },
     onDeleteTaskBtnClick: (task) => {
@@ -66,7 +66,7 @@ function getTasksWithProjects(tasks) {
             dueDate: task.dueDate,
             priority: task.priority,
             completed: task.completed,
-            projectID: project.id,
+            projectId: project.id,
             projectName: project.name,
         };
     });
