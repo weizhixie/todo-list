@@ -152,7 +152,7 @@ export class RenderUI {
         taskForm.querySelector("#todo-description").value = task.description;
         taskForm.querySelector("#todo-dueDate").value = task.dueDate;
         taskForm.querySelector("#priority-select").value = task.priority;
-        taskForm.querySelector("#todo-project").value = task.projectItem;
+        taskForm.querySelector("#todo-project").value = task.projectName;
         taskForm.addEventListener("submit", (e) => {
             e.preventDefault();
             this.handleEditTaskFormSubmit(taskForm, task);
@@ -280,7 +280,7 @@ export class RenderUI {
         todoDetailModal.querySelector(".todo-detail-desc").textContent = `Details: ${task.description}`;
         todoDetailModal.querySelector(".todo-detail-due").textContent = `DueDate: ${task.dueDate}`;
         todoDetailModal.querySelector(".todo-detail-priority").textContent = `Priority: ${task.priority}`;
-        todoDetailModal.querySelector(".todo-detail-project").textContent = `Project: ${task.projectItem}`;
+        todoDetailModal.querySelector(".todo-detail-project").textContent = `Project: ${task.projectName}`;
 
         todoDetailModal.showModal();
     }
