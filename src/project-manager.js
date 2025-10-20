@@ -38,4 +38,8 @@ export class ProjectManager {
     findProjectOfTask(taskID) {
         return this.#projects.find(project => project.tasks.some(list => list.id === taskID));
     }
+
+    findProjectByName(projectName) {
+        return this.#projects.find(project => project.name === projectName);
+    }
 }

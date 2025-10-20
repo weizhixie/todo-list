@@ -24,21 +24,14 @@ const dummyTodoTasks = [
 dummyTodoTasks.forEach((taskData) => {
     const newTask = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority);
     taskManager.create(newTask);
-
-    const newProject = new Project(taskData.project);
-    projectManager.create(newProject);
-    newProject.addTask(newTask);
+    addTaskToProject(newTask, taskData.project);
 });
 
 const todoUI = new RenderUI(document.body, {
     onAddTaskFormSubmit: (taskData) => {
         const newTask = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority);
         taskManager.create(newTask);
-
-        const newProject = new Project(taskData.project);
-        projectManager.create(newProject);
-        newProject.addTask(newTask);
-
+        addTaskToProject(newTask, taskData.project);
         todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
     },
     onEditTaskFormSubmit: (task, taskData) => {
@@ -77,4 +70,15 @@ function getTasksWithProjects(tasks) {
             projectName: project.name,
         };
     });
+}
+
+function addTaskToProject(task, projectName) {
+    let newProject = projectManager.findProjectByName(projectName);
+
+    if (!newProject) {
+        newProject = new Project(projectName);
+        projectManager.create(newProject);
+    }
+
+    newProject.addTask(task);
 }
