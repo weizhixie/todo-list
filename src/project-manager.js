@@ -42,4 +42,13 @@ export class ProjectManager {
     findProjectByName(projectName) {
         return this.#projects.find(project => project.name === projectName);
     }
+
+    deleteTaskFromProject(taskID) {
+        const projectTasks = this.findProjectOfTask(taskID).tasks;
+        const taskIndex = projectTasks.findIndex(task => task.id === taskID);
+
+        if (taskIndex !== -1) {
+            projectTasks.splice(taskIndex, 1);
+        }
+    }
 }
