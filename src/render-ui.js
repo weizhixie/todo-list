@@ -213,7 +213,7 @@ export class RenderUI {
             description: formData.get("todo-description"),
             dueDate: formData.get("todo-dueDate"),
             priority: formData.get("priority-select"),
-            project: formData.get("todo-project")
+            project: formData.get("todo-project").trim(),
         };
     }
 

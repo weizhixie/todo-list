@@ -37,8 +37,15 @@ const todoUI = new RenderUI(document.body, {
     },
     onEditTaskFormSubmit: (task, taskData) => {
         taskManager.update(task.id, taskData);
-        projectManager.update(task.projectId, taskData.project);
+        const oldProject = projectManager.findProjectOfTask(task.id);
+        if (oldProject.name !== taskData.project) {
+            const taskIndex = oldProject.tasks.findIndex(t => t.id === task.id);
+            /* [movedTask] is array destructuring, it extract the first task from splice() return */
+            const [movedTask] = oldProject.tasks.splice(taskIndex, 1);
+            addTaskToProject(movedTask, taskData.project);
+        }
         todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+        todoUI.updateProjectsDisplay(projectManager.listAll());
     },
     onDeleteTaskBtnClick: (task) => {
         taskManager.delete(task.id);
