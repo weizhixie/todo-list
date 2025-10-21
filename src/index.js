@@ -62,6 +62,14 @@ const todoUI = new RenderUI(document.body, {
     },
     showProjectTasks: (project) => {
         todoUI.updateTasksDisplay(getTasksWithProjects(project.tasks));
+    },
+    addNewProject: (projectName) => {
+        let newProject = projectManager.findProjectByName(projectName);
+        if (!newProject) {
+            projectManager.create(new Project(projectName));
+        }
+        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+        todoUI.updateProjectsDisplay(projectManager.listAll());
     }
 });
 

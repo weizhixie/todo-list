@@ -67,17 +67,88 @@ export class RenderUI {
             menuList.appendChild(menuItem);
         });
 
+        const projectsHdrWrapper = document.createElement("div");
+        projectsHdrWrapper.classList.add("projects-hdr-wrapper");
+
         const projectsHeader = document.createElement("h3");
-        projectsHeader.classList.add("projects-header");
         projectsHeader.textContent = "Projects";
+
+        const addProjectIcon = document.createElement("p");
+        addProjectIcon.classList.add("add-project-icon");
+        addProjectIcon.textContent = `\u2295`;
+        addProjectIcon.addEventListener("click", () => this.addProjectModal());
+
+        projectsHdrWrapper.append(projectsHeader, addProjectIcon);
 
         const projectContainer = document.createElement("div");
         projectContainer.classList.add("project-container");
 
-        sideBarNav.append(menuList, projectsHeader, projectContainer);
+        sideBarNav.append(menuList, projectsHdrWrapper, projectContainer);
         this.handleSideBarNav(sideBarNav);
 
         return sideBarNav;
+    }
+
+    addProjectModal() {
+        const projectModal = document.createElement("dialog");
+        projectModal.classList.add("project-modal");
+
+        const projectFormHeader = document.createElement("h2");
+        projectFormHeader.classList.add("project-form-header");
+        projectFormHeader.textContent = "Add Project";
+
+        const form = document.createElement("form");
+        form.classList.add("project-form");
+
+        const projectInputWrapper = document.createElement("div");
+        projectInputWrapper.classList.add("project-input-wrapper");
+
+        const nameLabel = document.createElement("label");
+        nameLabel.textContent = "Project";
+        nameLabel.htmlFor = "project-name";
+
+        const nameInput = document.createElement("input");
+        nameInput.classList.add("project-input");
+        nameInput.setAttribute("id", "project-name");
+        nameInput.setAttribute("name", "project-name");
+        nameInput.setAttribute("type", "text");
+        nameInput.required = true;
+
+        projectInputWrapper.append(nameLabel, nameInput);
+
+        const projectFormBtnWrapper = document.createElement("div");
+        projectFormBtnWrapper.classList.add("project-form-btn-wrapper");
+
+        const submitBtn = document.createElement("button");
+        submitBtn.classList.add("submit-project-btn");
+        submitBtn.textContent = "Add";
+
+        const cancelBtn = document.createElement("button");
+        cancelBtn.classList.add("cancel-btn");
+        cancelBtn.textContent = "Cancel";
+        cancelBtn.type = "button";
+        cancelBtn.addEventListener("click", () => projectModal.close());
+
+        projectFormBtnWrapper.append(cancelBtn, submitBtn);
+
+        const xSignCloseBtn = document.createElement("button");
+        xSignCloseBtn.classList.add("x-sign-close-btn");
+        xSignCloseBtn.textContent = '\u2715';
+        xSignCloseBtn.addEventListener("click", () => projectModal.close());
+
+        form.append(projectInputWrapper, projectFormBtnWrapper);
+        projectModal.append(projectFormHeader, form, xSignCloseBtn);
+        this.body.appendChild(projectModal);
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (nameInput.value.trim()) {
+                this.eventHandlers.addNewProject(nameInput.value);
+                projectModal.close();
+            }
+        });
+
+        projectModal.showModal();
     }
 
     updateProjectsDisplay(projects) {

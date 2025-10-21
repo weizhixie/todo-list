@@ -65,9 +65,26 @@ body {
     cursor: pointer;
 }
 
-.projects-header {
-    padding: 10px 0;
+.projects-hdr-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+    gap: 2px;
     border-bottom: 1px solid var(--viridian);
+}
+
+.add-project-icon {
+    font-size: 3rem;
+    color: var(--viridian);
+    padding-right: 5px;
+    padding-bottom: 5px;
+    user-select: none;
+}
+
+.add-project-icon:hover {
+    cursor: pointer;
+    -webkit-text-stroke: 3px var(--mint-green);
 }
 
 .project-container {
@@ -87,14 +104,16 @@ body {
     background: none;
 }
 
-.task-modal {
+.task-modal,
+.project-modal {
     background-color: var(--azure);
     margin: auto;
     border-radius: 10px;
 
 }
 
-.task-form-header {
+.task-form-header,
+.project-form-header {
     background-color: var(--cambridge-blue);
     padding: 1rem;
     color: var(--azure);
@@ -104,7 +123,12 @@ body {
     padding: 1.5rem 2rem 0;
 }
 
-.task-input {
+.project-input-wrapper {
+    padding: 1rem 1rem 0;
+}
+
+.task-input,
+.project-input {
     width: 100%;
     border: 2px solid var(--viridian);
     background: none;
@@ -121,6 +145,12 @@ body {
     padding-bottom: 1rem;
     display: flex;
     justify-content: space-between;
+}
+
+.project-form-btn-wrapper{
+    display: flex;
+    justify-content: space-between;
+    padding: 0.7rem 1rem;
 }
 
 .cancel-btn {
@@ -191,7 +221,8 @@ body {
 .close-detail-btn,
 .submit-task-btn,
 .edit-btn,
-.delete-btn {
+.delete-btn,
+.submit-project-btn {
     background: linear-gradient(to bottom right, var(--viridian), var(--mint-cream));
     font-size: 1.1rem;
     padding: 5px;
@@ -209,7 +240,8 @@ body {
 .cancel-btn:hover,
 .add-task-btn:hover,
 .edit-btn:hover,
-.delete-btn:hover {
+.delete-btn:hover,
+.submit-project-btn:hover {
     filter: brightness(120%);
     cursor: pointer;
 }
