@@ -36,16 +36,16 @@ export class RenderUI {
 
     handleSideBarNav(sideBarNav) {
         const sideBarAll = sideBarNav.querySelector("#sidebar-all");
-        sideBarAll.addEventListener("click", () => this.eventHandlers.getAllTasks());
+        sideBarAll.addEventListener("click", () => this.eventHandlers.showAllTasks());
 
         const sideBarToday = sideBarNav.querySelector("#sidebar-today");
-        sideBarToday.addEventListener("click", () => this.eventHandlers.getTasksDueToday());
+        sideBarToday.addEventListener("click", () => this.eventHandlers.showTasksDueToday());
 
         const sideBarUpcoming = sideBarNav.querySelector("#sidebar-upcoming");
-        sideBarUpcoming.addEventListener("click", () => this.eventHandlers.getTasksUpcoming());
+        sideBarUpcoming.addEventListener("click", () => this.eventHandlers.showTasksUpcoming());
 
         const sideBarCompleted = sideBarNav.querySelector("#sidebar-completed");
-        sideBarCompleted.addEventListener("click", () => this.eventHandlers.getTasksCompleted());
+        sideBarCompleted.addEventListener("click", () => this.eventHandlers.showTasksCompleted());
     }
 
     renderSideBar() {
@@ -241,7 +241,7 @@ export class RenderUI {
             }
 
             completeToggle.addEventListener("change", () => {
-                this.eventHandlers.onToggleCompleted(task);
+                this.eventHandlers.toggleTaskCompletion(task);
                 //set task-complete to be present if task.completed is truthy, and absent if it's falsy
                 title.classList.toggle("task-complete", task.completed);
             });

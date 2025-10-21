@@ -9,7 +9,7 @@ const taskManager = new TaskManager();
 const projectManager = new ProjectManager();
 
 const dummyTodoTasks = [
-    { title: "Buy groceries", description: "Get milk, eggs, bread, and vegetables from the supermarket.", dueDate: `${new Date().toISOString().split("T")[0]}`, priority: "High", project: "Personal" },
+    { title: "Buy groceries", description: "Get milk, eggs, bread, and vegetables from the supermarket.", dueDate: `${new Date().toISOString().split("T")[0]}`, priority: "High", project: "Default" },
     { title: "Finish project report", description: "Compile research findings and format the final report for submission.", dueDate: "2025-11-15", priority: "High", project: "Work" },
     { title: "Call the plumber", description: "Fix the leaking kitchen sink before the weekend.", dueDate: "2025-11-08", priority: "Normal", project: "Personal" },
     { title: "Plan weekend trip", description: "Book accommodation and plan itinerary for the short getaway.", dueDate: "2025-11-12", priority: "Low", project: "Personal" },
@@ -45,11 +45,11 @@ const todoUI = new RenderUI(document.body, {
         projectManager.deleteTaskFromProject(task.id);
         todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
     },
-    getTasksDueToday: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listTasksDueToday())),
-    getAllTasks: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll())),
-    getTasksUpcoming: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listTasksUpcoming())),
-    getTasksCompleted: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listTasksCompleted())),
-    onToggleCompleted: (task) => {
+    showTasksDueToday: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listTasksDueToday())),
+    showAllTasks: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll())),
+    showTasksUpcoming: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listTasksUpcoming())),
+    showTasksCompleted: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listTasksCompleted())),
+    toggleTaskCompletion: (task) => {
         taskManager.toggleCompleted(task.id);
         todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
     },
