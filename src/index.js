@@ -67,6 +67,8 @@ const todoUI = new RenderUI(document.body, {
         let newProject = projectManager.findProjectByName(projectName);
         if (!newProject) {
             projectManager.create(new Project(projectName));
+        } else {
+            alert(`Project ${projectName} already exists`);
         }
         todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
         todoUI.updateProjectsDisplay(projectManager.listAll());
@@ -74,6 +76,15 @@ const todoUI = new RenderUI(document.body, {
     deleteProject: (project) => {
         const [removedProject] = projectManager.delete(project.id);
         removedProject.tasks.forEach(task => taskManager.delete(task.id));
+        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+        todoUI.updateProjectsDisplay(projectManager.listAll());
+    },
+    editProject: (project, projectName) => {
+        if (!projectManager.findProjectByName(projectName)) {
+            projectManager.update(project.id, projectName);
+        } else {
+            alert(`Project ${projectName} already exists`);
+        }
         todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
         todoUI.updateProjectsDisplay(projectManager.listAll());
     }

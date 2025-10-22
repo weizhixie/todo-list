@@ -76,7 +76,7 @@ export class RenderUI {
         const addProjectIcon = document.createElement("p");
         addProjectIcon.classList.add("add-project-icon");
         addProjectIcon.textContent = `\u2295`;
-        addProjectIcon.addEventListener("click", () => this.addProjectModal());
+        addProjectIcon.addEventListener("click", () => this.openProjectModal("add-project"));
 
         projectsHdrWrapper.append(projectsHeader, addProjectIcon);
 
@@ -89,16 +89,63 @@ export class RenderUI {
         return sideBarNav;
     }
 
-    addProjectModal() {
+    openProjectModal(mode, project) {
+        const existingModal = this.body.querySelector(".project-modal");
+        if (existingModal) {
+            existingModal.remove();
+        }
+
         const projectModal = document.createElement("dialog");
         projectModal.classList.add("project-modal");
 
-        const projectFormHeader = document.createElement("h2");
-        projectFormHeader.classList.add("project-form-header");
-        projectFormHeader.textContent = "Add Project";
+        if (mode === "add-project") {
+            projectModal.appendChild(this.createAddProjectForm());
+        } else {
+            projectModal.appendChild(this.createEditProjectForm(project));
+        }
 
+        this.body.appendChild(projectModal);
+        projectModal.showModal();
+    }
+
+    createAddProjectForm() {
+        const form = this.createBaseProjectForm("Add Project", "Add");
+        const nameInput = form.querySelector("#project-name");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (nameInput.value.trim()) {
+                this.eventHandlers.addNewProject(nameInput.value);
+                this.body.querySelector(".project-modal").close();
+            }
+        });
+
+        return form;
+    }
+
+    createEditProjectForm(project) {
+        const form = this.createBaseProjectForm("Edit Project", "Edit");
+        const nameInput = form.querySelector("#project-name");
+        nameInput.value = project.name;
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (nameInput.value.trim()) {
+                this.eventHandlers.editProject(project, nameInput.value);
+                this.body.querySelector(".project-modal").close();
+            }
+        });
+
+        return form;
+    }
+
+    createBaseProjectForm(header, btnContent) {
         const form = document.createElement("form");
         form.classList.add("project-form");
+
+        const projectFormHeader = document.createElement("h2");
+        projectFormHeader.classList.add("project-form-header");
+        projectFormHeader.textContent = header;
 
         const projectInputWrapper = document.createElement("div");
         projectInputWrapper.classList.add("project-input-wrapper");
@@ -121,34 +168,29 @@ export class RenderUI {
 
         const submitBtn = document.createElement("button");
         submitBtn.classList.add("submit-project-btn");
-        submitBtn.textContent = "Add";
+        submitBtn.textContent = btnContent;
 
         const cancelBtn = document.createElement("button");
         cancelBtn.classList.add("cancel-btn");
         cancelBtn.textContent = "Cancel";
-        cancelBtn.type = "button";
-        cancelBtn.addEventListener("click", () => projectModal.close());
+        cancelBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            this.body.querySelector(".project-modal").close();
+        });
 
         projectFormBtnWrapper.append(cancelBtn, submitBtn);
 
         const xSignCloseBtn = document.createElement("button");
         xSignCloseBtn.classList.add("x-sign-close-btn");
         xSignCloseBtn.textContent = '\u2715';
-        xSignCloseBtn.addEventListener("click", () => projectModal.close());
-
-        form.append(projectInputWrapper, projectFormBtnWrapper);
-        projectModal.append(projectFormHeader, form, xSignCloseBtn);
-        this.body.appendChild(projectModal);
-
-        form.addEventListener("submit", (e) => {
+        xSignCloseBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            if (nameInput.value.trim()) {
-                this.eventHandlers.addNewProject(nameInput.value);
-                projectModal.close();
-            }
+            this.body.querySelector(".project-modal").close();
         });
 
-        projectModal.showModal();
+        form.append(projectFormHeader, projectInputWrapper, projectFormBtnWrapper, xSignCloseBtn);
+
+        return form;
     }
 
     updateProjectsDisplay(projects) {
@@ -173,13 +215,19 @@ export class RenderUI {
             const editBtn = document.createElement("button");
             editBtn.classList.add("edit-btn");
             editBtn.textContent = "Edit";
+            editBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                this.openProjectModal("edit-project", project);
+            });
 
             const deleteBtn = document.createElement("button");
             deleteBtn.classList.add("delete-btn");
             deleteBtn.textContent = "Delete";
             deleteBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
-                this.eventHandlers.deleteProject(project);
+                if (window.confirm("Do you really want to delete this project?")) {
+                    this.eventHandlers.deleteProject(project);
+                }
             });
 
             projectBtnWrapper.append(editBtn, deleteBtn);
