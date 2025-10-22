@@ -121,7 +121,7 @@ export class RenderUI {
         form.addEventListener("submit", (e) => {
             e.preventDefault();
             if (nameInput.value.trim()) {
-                this.eventHandlers.addNewProject(nameInput.value);
+                this.eventHandlers.addNewProject(nameInput.value.trim());
                 this.body.querySelector(".project-modal").close();
             }
         });
@@ -137,7 +137,7 @@ export class RenderUI {
         form.addEventListener("submit", (e) => {
             e.preventDefault();
             if (nameInput.value.trim()) {
-                this.eventHandlers.editProject(project, nameInput.value);
+                this.eventHandlers.editProject(project, nameInput.value.trim());
                 this.body.querySelector(".project-modal").close();
             }
         });
@@ -277,6 +277,12 @@ export class RenderUI {
 
     createAddTaskForm() {
         const taskForm = this.createBaseTaskForm("Add task", "Add Task");
+
+        const todoProject = taskForm.querySelector("#todo-project");
+        this.eventHandlers.returnProjects().forEach((project, key) => {
+            todoProject.options[key] = new Option(project.name, project.name);
+        });
+
         taskForm.addEventListener("submit", (e) => {
             e.preventDefault();
             this.handleAddTaskFormSubmit(taskForm);
@@ -302,7 +308,12 @@ export class RenderUI {
         taskForm.querySelector("#todo-description").value = task.description;
         taskForm.querySelector("#todo-dueDate").value = task.dueDate;
         taskForm.querySelector("#priority-select").value = task.priority;
-        taskForm.querySelector("#todo-project").value = task.projectName;
+
+        const todoProject = taskForm.querySelector("#todo-project");
+        this.eventHandlers.returnProjects().forEach((project, key) => {
+            todoProject.options[key] = new Option(project.name, project.name);
+        });
+
         taskForm.addEventListener("submit", (e) => {
             e.preventDefault();
             this.handleEditTaskFormSubmit(taskForm, task);
@@ -498,7 +509,7 @@ export class RenderUI {
             ]
         }, {
             label: "Project",
-            input: { tagName: "input", type: "text", name: "todo-project", id: "todo-project", value: "Default" }
+            input: { tagName: "select", name: "todo-project", id: "todo-project" }
         }];
 
         taskFormFields.forEach((field) => {
