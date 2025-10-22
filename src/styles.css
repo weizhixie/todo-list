@@ -57,6 +57,8 @@ body {
     margin-bottom: 12px;
     padding: 8px;
     border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .sidebar-menu-item:hover {
@@ -89,6 +91,11 @@ body {
 
 .project-container {
     margin-top: 10px;
+}
+
+.project-btn-wrapper{
+    display: flex;
+    gap: 5px;
 }
 
 /* main section - Todos */
@@ -147,7 +154,7 @@ body {
     justify-content: space-between;
 }
 
-.project-form-btn-wrapper{
+.project-form-btn-wrapper {
     display: flex;
     justify-content: space-between;
     padding: 0.7rem 1rem;

@@ -166,7 +166,25 @@ export class RenderUI {
             projectItem.classList.add("sidebar-menu-item");
             projectItem.setAttribute("id", `project-${project.name}`);
             projectItem.textContent = project.name;
-            projectMenu.appendChild(projectItem);
+
+            const projectBtnWrapper = document.createElement("div");
+            projectBtnWrapper.classList.add("project-btn-wrapper");
+
+            const editBtn = document.createElement("button");
+            editBtn.classList.add("edit-btn");
+            editBtn.textContent = "Edit";
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.classList.add("delete-btn");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                this.eventHandlers.deleteProject(project);
+            });
+
+            projectBtnWrapper.append(editBtn, deleteBtn);
+            projectItem.append(projectBtnWrapper);
+            projectMenu.append(projectItem);
             projectItem.addEventListener("click", () => this.eventHandlers.showProjectTasks(project));
         });
 

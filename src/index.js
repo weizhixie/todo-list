@@ -70,6 +70,12 @@ const todoUI = new RenderUI(document.body, {
         }
         todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
         todoUI.updateProjectsDisplay(projectManager.listAll());
+    },
+    deleteProject: (project) => {
+        const [removedProject] = projectManager.delete(project.id);
+        removedProject.tasks.forEach(task => taskManager.delete(task.id));
+        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+        todoUI.updateProjectsDisplay(projectManager.listAll());
     }
 });
 

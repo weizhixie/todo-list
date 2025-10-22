@@ -23,7 +23,7 @@ export class ProjectManager {
         const projectIndex = this.#projects.findIndex(project => project.id === projectId);
 
         if (projectIndex !== -1) {
-            this.#projects.splice(projectIndex, 1);
+            return this.#projects.splice(projectIndex, 1);
         }
     }
 
