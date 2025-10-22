@@ -30,7 +30,7 @@ dummyTodoTasks.forEach((taskData) => {
 });
 
 const todoUI = new RenderUI(document.body, {
-    onAddTaskFormSubmit: (taskData) => {
+    addNewTask: (taskData) => {
         const newTask = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority);
         taskManager.create(newTask);
         addTaskToProject(newTask, taskData.project);
@@ -38,7 +38,7 @@ const todoUI = new RenderUI(document.body, {
         refreshCurrentView();
         todoUI.updateProjectsDisplay(projectManager.listAll());
     },
-    onEditTaskFormSubmit: (task, taskData) => {
+    editTask: (task, taskData) => {
         taskManager.update(task.id, taskData);
         const oldProject = projectManager.findProjectOfTask(task.id);
         if (oldProject.name !== taskData.project) {
@@ -51,7 +51,7 @@ const todoUI = new RenderUI(document.body, {
         refreshCurrentView();
         todoUI.updateProjectsDisplay(projectManager.listAll());
     },
-    onDeleteTaskBtnClick: (task) => {
+    deleteTask: (task) => {
         taskManager.delete(task.id);
         projectManager.deleteTaskFromProject(task.id);
         

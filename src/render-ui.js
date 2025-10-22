@@ -295,7 +295,7 @@ export class RenderUI {
         const taskData = this.parseTaskFormData(taskForm);
 
         //callback when form submits
-        this.eventHandlers.onAddTaskFormSubmit(taskData);
+        this.eventHandlers.addNewTask(taskData);
 
         this.body.querySelector(".task-modal").close();
         taskForm.reset();
@@ -325,13 +325,13 @@ export class RenderUI {
     handleEditTaskFormSubmit(taskForm, task) {
         const taskData = this.parseTaskFormData(taskForm);
 
-        this.eventHandlers.onEditTaskFormSubmit(task, taskData);
+        this.eventHandlers.editTask(task, taskData);
 
         this.body.querySelector(".task-modal").close();
     }
 
     handleDeleteTask(task) {
-        this.eventHandlers.onDeleteTaskBtnClick(task);
+        this.eventHandlers.deleteTask(task);
     }
 
     updateTasksDisplay(tasks) {
@@ -362,10 +362,6 @@ export class RenderUI {
         //if date is not select, set it to today
         if (!formData.get("todo-dueDate")) {
             formData.set("todo-dueDate", new Date().toISOString().split("T")[0]);
-        }
-
-        if (!formData.get("todo-project").trim()) {
-            formData.set("todo-project", "Default");
         }
 
         return {
@@ -509,7 +505,10 @@ export class RenderUI {
             ]
         }, {
             label: "Project",
-            input: { tagName: "select", name: "todo-project", id: "todo-project" }
+            input: { tagName: "select", name: "todo-project", id: "todo-project" },
+            options: [
+                { value: "Default", text: "Default" }
+            ]
         }];
 
         taskFormFields.forEach((field) => {
