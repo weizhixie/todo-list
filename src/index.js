@@ -7,6 +7,8 @@ import { ProjectManager } from "./project-manager.js";
 
 const taskManager = new TaskManager();
 const projectManager = new ProjectManager();
+let currentView = "all";
+let currentProject = null;
 
 const dummyTodoTasks = [
     { title: "Buy groceries", description: "Get milk, eggs, bread, and vegetables from the supermarket.", dueDate: `${new Date().toISOString().split("T")[0]}`, priority: "High", project: "Default" },
@@ -32,7 +34,8 @@ const todoUI = new RenderUI(document.body, {
         const newTask = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority);
         taskManager.create(newTask);
         addTaskToProject(newTask, taskData.project);
-        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+        
+        refreshCurrentView();
         todoUI.updateProjectsDisplay(projectManager.listAll());
     },
     onEditTaskFormSubmit: (task, taskData) => {
@@ -44,24 +47,50 @@ const todoUI = new RenderUI(document.body, {
             const [movedTask] = oldProject.tasks.splice(taskIndex, 1);
             addTaskToProject(movedTask, taskData.project);
         }
-        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+        
+        refreshCurrentView();
         todoUI.updateProjectsDisplay(projectManager.listAll());
     },
     onDeleteTaskBtnClick: (task) => {
         taskManager.delete(task.id);
         projectManager.deleteTaskFromProject(task.id);
-        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+        
+        refreshCurrentView();
     },
-    showTasksDueToday: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listTasksDueToday())),
-    showAllTasks: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll())),
-    showTasksUpcoming: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listTasksUpcoming())),
-    showTasksCompleted: () => todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listTasksCompleted())),
+    showTasksDueToday: () => {
+        currentView = "today";
+        currentProject = null;
+
+        refreshCurrentView();
+    },
+    showAllTasks: () => {
+        currentView = "all";
+        currentProject = null;
+
+        refreshCurrentView();
+    },
+    showTasksUpcoming: () => {
+        currentView = "upcoming";
+        currentProject = null;
+
+        refreshCurrentView();
+    },
+    showTasksCompleted: () => {
+        currentView = "completed";
+        currentProject = null;
+
+        refreshCurrentView();
+    },
     toggleTaskCompletion: (task) => {
         taskManager.toggleCompleted(task.id);
-        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+        
+        refreshCurrentView();
     },
     showProjectTasks: (project) => {
-        todoUI.updateTasksDisplay(getTasksWithProjects(project.tasks));
+        currentView = "project";
+        currentProject = project;
+
+        refreshCurrentView();
     },
     addNewProject: (projectName) => {
         let newProject = projectManager.findProjectByName(projectName);
@@ -70,13 +99,15 @@ const todoUI = new RenderUI(document.body, {
         } else {
             alert(`Project ${projectName} already exists`);
         }
-        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+
+        refreshCurrentView();
         todoUI.updateProjectsDisplay(projectManager.listAll());
     },
     deleteProject: (project) => {
         const [removedProject] = projectManager.delete(project.id);
         removedProject.tasks.forEach(task => taskManager.delete(task.id));
-        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+
+        refreshCurrentView();
         todoUI.updateProjectsDisplay(projectManager.listAll());
     },
     editProject: (project, projectName) => {
@@ -85,7 +116,8 @@ const todoUI = new RenderUI(document.body, {
         } else {
             alert(`Project ${projectName} already exists`);
         }
-        todoUI.updateTasksDisplay(getTasksWithProjects(taskManager.listAll()));
+
+        refreshCurrentView();
         todoUI.updateProjectsDisplay(projectManager.listAll());
     }
 });
@@ -118,4 +150,21 @@ function addTaskToProject(task, projectName) {
     }
 
     newProject.addTask(task);
+}
+
+function refreshCurrentView() {
+    const views = {
+        "today": () => getTasksWithProjects(taskManager.listTasksDueToday()),
+        "all": () => getTasksWithProjects(taskManager.listAll()),
+        "upcoming": () => getTasksWithProjects(taskManager.listTasksUpcoming()),
+        "completed": () => getTasksWithProjects(taskManager.listTasksCompleted()),
+        "project": () => {
+            if (!projectManager.listByProject(currentProject.id)) {
+                return views["all"]();
+            }
+            return getTasksWithProjects(currentProject.tasks);
+        }
+    };
+
+    todoUI.updateTasksDisplay(views[currentView]());
 }
