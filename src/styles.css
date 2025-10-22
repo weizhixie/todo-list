@@ -62,9 +62,13 @@ body {
 }
 
 .sidebar-menu-item:hover {
-    border: 2px solid var(--viridian);
-    background: none;
+    border: 2px solid var(--mint-green);
+    background-color: var(--viridian);
     cursor: pointer;
+}
+
+.sidebar-highlight {
+    background-color: var(--viridian);
 }
 
 .projects-hdr-wrapper {
@@ -93,7 +97,7 @@ body {
     margin-top: 10px;
 }
 
-.project-btn-wrapper{
+.project-btn-wrapper {
     display: flex;
     gap: 5px;
 }

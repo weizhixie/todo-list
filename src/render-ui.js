@@ -65,6 +65,12 @@ export class RenderUI {
             menuItem.setAttribute("id", item.id);
             menuItem.textContent = item.text;
             menuList.appendChild(menuItem);
+            menuItem.addEventListener("click", (e) => {
+                document.querySelectorAll(".sidebar-menu-item").forEach((el) => {
+                    el.classList.remove("sidebar-highlight");
+                });
+                e.currentTarget.classList.add("sidebar-highlight");
+            });
         });
 
         const projectsHdrWrapper = document.createElement("div");
@@ -208,6 +214,12 @@ export class RenderUI {
             projectItem.classList.add("sidebar-menu-item");
             projectItem.setAttribute("id", `project-${project.name}`);
             projectItem.textContent = project.name;
+            projectItem.addEventListener("click", (e) => {
+                document.querySelectorAll(".sidebar-menu-item").forEach((el) => {
+                    el.classList.remove("sidebar-highlight");
+                });
+                e.currentTarget.classList.add("sidebar-highlight");
+            });
 
             const projectBtnWrapper = document.createElement("div");
             projectBtnWrapper.classList.add("project-btn-wrapper");
