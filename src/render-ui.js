@@ -1,3 +1,5 @@
+import githubImg from "./images/github-mark-white.png";
+
 export class RenderUI {
     constructor(body, eventHandlers) {
         this.body = body;
@@ -563,7 +565,21 @@ export class RenderUI {
     renderFooter() {
         const footer = document.createElement("footer");
         footer.classList.add("footer");
-        footer.textContent = "Footer";
+
+        const copyright = document.createElement("p");
+        copyright.textContent = `Copyright \u00A9 W.Xie ${new Date().getFullYear()}`;
+
+        const githubLink = document.createElement("a");
+        githubLink.target = "_blank";
+        githubLink.href = "https://github.com/weizhixie";
+
+        const githubIcon = document.createElement("img");
+        githubIcon.classList.add("github-icon");
+        githubIcon.src = githubImg;
+        githubLink.appendChild(githubIcon);
+
+        footer.append(copyright, githubLink);
+
         return footer;
     }
 }

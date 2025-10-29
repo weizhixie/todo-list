@@ -31,7 +31,7 @@ body {
     font-family: var(--main-font-family), var(--fallback-font);
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 8fr 1fr;
+    grid-template-rows: 1fr 8fr 4em;
 }
 
 .header {
@@ -295,6 +295,21 @@ body {
     margin-top: 5px;
 }
 
+/* footer section*/
 .footer {
     background-color: var(--cambridge-blue);
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.github-icon {
+    height: 30px;
+    width: 30px;
+}
+
+.github-icon:hover {
+    transform: scale(1.2) rotate(180deg);
 }
