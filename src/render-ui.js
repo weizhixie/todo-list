@@ -36,13 +36,17 @@ export class RenderUI {
         const todosContainer = document.createElement("div");
         todosContainer.classList.add("todos-container");
 
+        const mainTitle = document.createElement("h2");
+        mainTitle.classList.add("main-title");
+        mainTitle.textContent = "All";
+
         const addTaskBtn = document.createElement("button");
         addTaskBtn.classList.add("add-task-btn");
         addTaskBtn.textContent = `\u2295 Add Task`;
         addTaskBtn.addEventListener("click", () => this.openTaskModal("add-task"));
 
         sideBarContainer.appendChild(this.renderSideBar());
-        todosContainer.appendChild(addTaskBtn);
+        todosContainer.append(mainTitle, addTaskBtn);
         mainSection.append(sideBarContainer, todosContainer);
 
         return mainSection;
@@ -357,16 +361,19 @@ export class RenderUI {
         this.eventHandlers.deleteTask(task);
     }
 
-    updateTasksDisplay(tasks) {
+    updateTasksDisplay(tasks, selectedView) {
         const todosContainer = this.body.querySelector(".todos-container");
         const addTaskBtn = todosContainer.querySelector(".add-task-btn");
+        const mainTitle = todosContainer.querySelector(".main-title");
 
         todosContainer.textContent = "";
-        todosContainer.appendChild(addTaskBtn);
+        mainTitle.textContent = selectedView;
+        todosContainer.append(mainTitle, addTaskBtn);
 
         if (tasks.length === 0) {
             const emptyTodo = document.createElement("p");
-            emptyTodo.textContent = "No task yet.";
+            emptyTodo.classList.add("empty-todo");
+            emptyTodo.textContent = "There are no tasks yet. Add the first one!";
             todosContainer.appendChild(emptyTodo);
         } else {
             this.renderTasks(tasks);

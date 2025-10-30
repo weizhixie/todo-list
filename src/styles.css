@@ -118,6 +118,22 @@ body {
     padding: 20px;
 }
 
+.main-title {
+    display: flex;
+    justify-content: center;
+    font-size: 2.2rem;
+    text-decoration: underline 3px var(--mint-green);
+    text-decoration-skip-ink: none;
+    text-underline-offset: 8px;
+}
+
+.empty-todo {
+    display: flex;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin-top: 15px;
+}
+
 .add-task-btn {
     font-size: 1.3rem;
     padding: 5px;

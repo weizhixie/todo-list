@@ -154,7 +154,7 @@ const todoUI = new RenderUI(document.body, {
     returnProjects: () => projectManager.listAll()
 });
 
-todoUI.renderTasks(getTasksWithProjects(taskManager.listAll()));
+refreshCurrentView();
 todoUI.renderProjectList(projectManager.listAll());
 
 function getTasksWithProjects(tasks) {
@@ -200,5 +200,10 @@ function refreshCurrentView() {
         }
     };
 
-    todoUI.updateTasksDisplay(views[currentView]());
+    let selectedView = `${currentView[0].toUpperCase()}${currentView.slice(1)}`;
+    if (currentProject) {
+        selectedView = `Project: ${currentProject.name}`;
+    }
+
+    todoUI.updateTasksDisplay(views[currentView](), selectedView);
 }
