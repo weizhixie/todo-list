@@ -31,11 +31,22 @@ body {
     font-family: var(--main-font-family), var(--fallback-font);
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 8fr 4em;
+    grid-template-rows: 5em 8fr 4em;
 }
 
+/* header section */
 .header {
     background-color: var(--mint-green);
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.todo-icon {
+    width: 32px;
+    height: 32px;
 }
 
 /* main section */

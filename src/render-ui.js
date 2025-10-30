@@ -2,6 +2,7 @@ import githubImg from "./images/github-mark-white.png";
 import deleteIconImg from "./images/trash3-fill.svg";
 import editIconImg from "./images/pencil-square.svg";
 import detailIconImg from "./images/info-circle.svg";
+import todoIconImg from "./images/journals.svg";
 
 export class RenderUI {
     constructor(body, eventHandlers) {
@@ -13,7 +14,15 @@ export class RenderUI {
     renderHeader() {
         const header = document.createElement("header");
         header.classList.add("header");
-        header.textContent = `Header`;
+
+        const todoIcon = document.createElement("img");
+        todoIcon.classList.add("todo-icon");
+        todoIcon.src = todoIconImg;
+
+        const headTitle = document.createElement("h1");
+        headTitle.textContent = "To Do List";
+
+        header.append(todoIcon, headTitle);
         return header;
     }
 
