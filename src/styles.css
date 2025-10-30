@@ -63,7 +63,7 @@ body {
 
 .sidebar-menu-item:hover {
     border: 2px solid var(--mint-green);
-    background-color: var(--viridian);
+    border: 1px solid var(--viridian);
     cursor: pointer;
 }
 
@@ -228,11 +228,8 @@ body {
     transform: scale(1.02);
 }
 
-.detail-btn,
 .close-detail-btn,
 .submit-task-btn,
-.edit-btn,
-.delete-btn,
 .submit-project-btn {
     background: linear-gradient(to bottom right, var(--viridian), var(--mint-cream));
     font-size: 1.1rem;
@@ -241,20 +238,44 @@ body {
     border: 0;
 }
 
-.delete-btn {
-    background: var(--chili-red);
+.delete-btn,
+.edit-btn,
+.detail-btn {
+    background: none;
+    border: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.detail-btn:hover,
+.detail-icon,
+.edit-icon {
+    width: 28px;
+    height: 28px;
+    filter: invert(55%) sepia(18%) saturate(1000%) hue-rotate(102deg) brightness(100%) contrast(100%);
+}
+
+.delete-icon {
+    width: 28px;
+    height: 28px;
+    filter: invert(23%) sepia(94%) saturate(6110%) hue-rotate(0deg) brightness(95%) contrast(90%);
+}
+
 .close-detail-btn:hover,
 .submit-task-btn:hover,
 .cancel-btn:hover,
 .add-task-btn:hover,
-.edit-btn:hover,
-.delete-btn:hover,
 .submit-project-btn:hover {
     filter: brightness(120%);
     cursor: pointer;
+}
+
+.detail-btn:hover,
+.edit-btn:hover,
+.delete-btn:hover {
+    filter: brightness(110%);
+    cursor: pointer;
+    background: var(--mint-green);
 }
 
 .todo-detail-modal {

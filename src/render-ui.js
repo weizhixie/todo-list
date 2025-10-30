@@ -1,4 +1,7 @@
 import githubImg from "./images/github-mark-white.png";
+import deleteIconImg from "./images/trash3-fill.svg";
+import editIconImg from "./images/pencil-square.svg";
+import detailIconImg from "./images/info-circle.svg";
 
 export class RenderUI {
     constructor(body, eventHandlers) {
@@ -55,7 +58,7 @@ export class RenderUI {
         const menuList = document.createElement("menu");
 
         const menuItems = [
-            { text: "All", id: "sidebar-all" },
+            { text: "All", id: "sidebar-all", class: "sidebar-highlight" },
             { text: "Today", id: "sidebar-today" },
             { text: "Upcoming", id: "sidebar-upcoming" },
             { text: "Completed", id: "sidebar-completed" },
@@ -64,6 +67,7 @@ export class RenderUI {
         menuItems.forEach((item) => {
             const menuItem = document.createElement("li");
             menuItem.classList.add("sidebar-menu-item");
+            if (item.class) menuItem.classList.add(item.class);
             menuItem.setAttribute("id", item.id);
             menuItem.textContent = item.text;
             menuList.appendChild(menuItem);
@@ -228,21 +232,29 @@ export class RenderUI {
 
             const editBtn = document.createElement("button");
             editBtn.classList.add("edit-btn");
-            editBtn.textContent = "Edit";
             editBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 this.openProjectModal("edit-project", project);
             });
 
+            const editIcon = document.createElement("img");
+            editIcon.classList.add("edit-icon");
+            editIcon.src = editIconImg;
+            editBtn.appendChild(editIcon);
+
             const deleteBtn = document.createElement("button");
             deleteBtn.classList.add("delete-btn");
-            deleteBtn.textContent = "Delete";
             deleteBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 if (window.confirm("Do you really want to delete this project?")) {
                     this.eventHandlers.deleteProject(project);
                 }
             });
+
+            const deleteIcon = document.createElement("img");
+            deleteIcon.classList.add("delete-icon");
+            deleteIcon.src = deleteIconImg;
+            deleteBtn.appendChild(deleteIcon);
 
             projectBtnWrapper.append(editBtn, deleteBtn);
             projectItem.append(projectBtnWrapper);
@@ -412,18 +424,30 @@ export class RenderUI {
 
             const detailBtn = document.createElement("button");
             detailBtn.classList.add("detail-btn");
-            detailBtn.textContent = "Details";
             detailBtn.addEventListener("click", () => this.openTodoDetail(task));
+
+            const detailIcon = document.createElement("img");
+            detailIcon.classList.add("detail-icon");
+            detailIcon.src = detailIconImg;
+            detailBtn.appendChild(detailIcon);
 
             const editBtn = document.createElement("button");
             editBtn.classList.add("edit-btn");
-            editBtn.textContent = "Edit";
             editBtn.addEventListener("click", () => this.openTaskModal("edit-task", task));
+
+            const editIcon = document.createElement("img");
+            editIcon.classList.add("edit-icon");
+            editIcon.src = editIconImg;
+            editBtn.appendChild(editIcon);
 
             const deleteBtn = document.createElement("button");
             deleteBtn.classList.add("delete-btn");
-            deleteBtn.textContent = "Delete";
             deleteBtn.addEventListener("click", () => this.handleDeleteTask(task));
+
+            const deleteIcon = document.createElement("img");
+            deleteIcon.classList.add("delete-icon");
+            deleteIcon.src = deleteIconImg;
+            deleteBtn.appendChild(deleteIcon);
 
             taskWrapperLeft.append(completeToggle, title);
             taskWrapperRight.append(dueDate, detailBtn, editBtn, deleteBtn);
